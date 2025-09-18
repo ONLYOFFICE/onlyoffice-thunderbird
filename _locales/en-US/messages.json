@@ -1,0 +1,11 @@
+{
+    "extensionDescription": {
+        "message": "Allows editing of the HTML source code of the currently composed message"
+    },    
+    "sourceHTML": {
+        "message": "Source (HTML)"
+    },
+    "openInOnlyoffice": {
+        "message": "Open in ONLYOFFICE"
+    }
+}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ONLYOFFICE Document Editor</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #files-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        .file-item:hover {
+            background-color: #f8f9fa;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .file-icon {
+            font-size: 24px;
+            margin-right: 12px;
+            width: 32px;
+            text-align: center;
+        }
+        .file-info {
+            flex-grow: 1;
+        }
+        .file-name {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .file-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        .no-files {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+            display: none;
+        }
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 20px;
+            font-style: normal;
+        }
+        .onlyoffice-button {
+            padding: 6px 12px;
+            background-color: #ED7D31;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+        .onlyoffice-button:hover {
+            background-color: #D35400;
+        }
+        .onlyoffice-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #editor-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            display: none;
+        }
+        #placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+        #settings-container {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .settings-button {
+            padding: 6px 12px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        .settings-button:hover {
+            background-color: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="files-container">
+            <h1>ONLYOFFICE Document Editor</h1>
+            <ul id="file-list" class="file-list"></ul>
+            <div id="no-files" class="no-files">No Office documents found</div>
+        </div>
+        
+        <button id="show-settings" class="onlyoffice-button">Settings</button>
+        
+        <div id="settings-container">
+            <h2>Settings</h2>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="docserver-url">Document Server URL:</label>
+                    <input type="text" id="docserver-url" placeholder="http://127.0.0.1:7070" value="http://127.0.0.1:7070">
+                </div>
+                <div class="form-actions">
+                    <button id="test-docserver" class="settings-button">Test Connection</button>
+                    <button id="save-settings" class="settings-button">Save</button>
+                    <button id="close-settings" class="settings-button">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editor-container">
+        <div id="placeholder">
+            <h2>Loading Document Editor...</h2>
+        </div>
+    </div>
+
+    <script src="viewer.js"></script>
+</body>
+</html> 
