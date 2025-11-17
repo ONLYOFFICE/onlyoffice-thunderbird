@@ -1,6 +1,6 @@
 {
   "server": {
-    "url": "https://nsnz.ngrok.io"
+    "url": "https://<document-server-url>"
   },
   "ui": {
     "window": {
