@@ -13,9 +13,9 @@ export class LoadingPage extends PageComponent {
     }
 
     async init(data) {
-        const textEl = this.querySelector('.loader__text');
-        if (textEl && data?.message)
-            textEl.textContent = data.message;
+        const textElement = this.querySelector('.loader__text');
+        if (textElement && data?.message)
+            textElement.textContent = data.message;
     }
 }
 
@@ -26,14 +26,14 @@ export class EmptyPage extends PageComponent {
 
     async render(data) {
         await super.render(data);
-        const titleEl = this.querySelector('.empty-state__title');
-        const subtitleEl = this.querySelector('.empty-state__subtitle');
+        const titleElement = this.querySelector('.empty-state__title');
+        const subtitleElement = this.querySelector('.empty-state__subtitle');
         const iconImg = this.querySelector('.empty-state__icon-img');
         
-        if (titleEl)
-            titleEl.textContent = data?.title || 'No docs here yet';
-        if (subtitleEl)
-            subtitleEl.textContent = data?.subtitle || 'Any files you upload will show up here.';
+        if (titleElement)
+            titleElement.textContent = data?.title || 'No docs here yet';
+        if (subtitleElement)
+            subtitleElement.textContent = data?.subtitle || 'Any files you upload will show up here.';
         if (iconImg)
             iconImg.src = typeof browser !== 'undefined' 
                 ? browser.runtime.getURL('images/nofiles.svg')
@@ -51,8 +51,8 @@ export class ErrorPage extends PageComponent {
     async render(data) {
         await super.render(data);
         
-        const content = this.querySelector('.error__content');
-        if (content) {
+        const contentElement = this.querySelector('.error__content');
+        if (contentElement) {
             const iconDiv = document.createElement('div');
             iconDiv.className = 'error__icon';
             iconDiv.setAttribute('aria-hidden', 'true');
@@ -63,16 +63,16 @@ export class ErrorPage extends PageComponent {
                 : 'images/error.svg';
             img.alt = '';
             iconDiv.appendChild(img);
-            content.insertBefore(iconDiv, content.firstChild);
+            contentElement.insertBefore(iconDiv, contentElement.firstChild);
         }
         
-        const titleEl = this.querySelector('.error__title');
-        const messageEl = this.querySelector('.error__message');
+        const titleElement = this.querySelector('.error__title');
+        const messageElement = this.querySelector('.error__message');
         
-        if (titleEl)
-            titleEl.textContent = data?.title || 'An Error Occurred';
-        if (messageEl)
-            messageEl.textContent = data?.message || 'Something went wrong. Please try again.';
+        if (titleElement)
+            titleElement.textContent = data?.title || 'An Error Occurred';
+        if (messageElement)
+            messageElement.textContent = data?.message || 'Something went wrong. Please try again.';
 
         return this.element;
     }
@@ -98,13 +98,13 @@ export class FileListPage extends PageComponent {
 
         container.innerHTML = '';
 
-        const noFilesMsg = this.element.querySelector('#no-files');
+        const noFilesTextElement = this.element.querySelector('#no-files');
         if (this.files.length === 0) {
-            noFilesMsg?.classList.add('show');
+            noFilesTextElement?.classList.add('show');
             return;
         }
 
-        noFilesMsg?.classList.remove('show');
+        noFilesTextElement?.classList.remove('show');
 
         this.files.forEach((file) => {
             const fileItem = FileComponents.createFileItem(file);
