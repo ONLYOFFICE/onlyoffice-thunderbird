@@ -1,5 +1,7 @@
+import { logger } from '../../common/logger.js';
+
 export const EmptyStateComponent = {
-    getResourceURL(path) {
+    _getBrowserURL(path) {
         return typeof browser !== 'undefined' 
             ? browser.runtime.getURL(path)
             : path;
@@ -16,7 +18,7 @@ export const EmptyStateComponent = {
         container.setAttribute('role', 'status');
         container.setAttribute('aria-label', `Empty state: ${title}`);
         
-        const icon = this.getResourceURL('images/nofiles.svg');
+        const icon = this._getBrowserURL('images/nofiles.svg');
         
         container.innerHTML = `
             <div class="empty-state__box">
@@ -38,10 +40,10 @@ export const EmptyStateComponent = {
         const link = document.createElement('link');
         link.id = 'empty-state-styles';
         link.rel = 'stylesheet';
-        link.href = this.getResourceURL('components/empty/empty.css');
+        link.href = this._getBrowserURL('components/empty/empty.css');
         
         link.addEventListener('error', () => {
-            console.warn('failed to load empty state styles');
+            logger.warn('Failed to load empty state styles');
         });
         
         document.head.appendChild(link);

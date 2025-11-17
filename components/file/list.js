@@ -1,6 +1,14 @@
+import { logger } from '../../common/logger.js';
+
 import { LoaderComponent } from '../loader/loader.js';
 
 export const FileListComponent = {
+    _getBrowserURL(path) {
+        return typeof browser !== 'undefined' 
+            ? browser.runtime.getURL(path)
+            : path;
+    },
+
     _createElement(tag, className, attributes = {}) {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -50,6 +58,8 @@ export const FileListComponent = {
 
     init() {
         this.injectStyles();
+        LoaderComponent.show('Loading ONLYOFFICE Documents...');
+        return true;
     },
 
     createTemplate() {
@@ -66,21 +76,18 @@ export const FileListComponent = {
         const link = document.createElement('link');
         link.id = 'file-list-styles';
         link.rel = 'stylesheet';
-        link.href = typeof browser !== 'undefined' 
-            ? browser.runtime.getURL('components/file/list.css')
-            : './components/file/list.css';
+        link.href = this._getBrowserURL('components/file/list.css');
+        
+        link.addEventListener('error', () => {
+            logger.warn('Failed to load file list styles');
+        });
+        
         document.head.appendChild(link);
     },
 
-    init(parentElement = null) {
+    show() {
         this.injectStyles();
         
-        LoaderComponent.show('Loading ONLYOFFICE Documents...');
-        
-        return true;
-    },
-
-    showFiles() {
         const template = this.createTemplate();
         const container = document.querySelector('.container');
         
@@ -92,5 +99,14 @@ export const FileListComponent = {
         }
         
         return template;
+    },
+
+    hide() {
+        const filesContainer = document.getElementById('files-container');
+        if (filesContainer) filesContainer.remove();
+    },
+
+    isVisible() {
+        return document.getElementById('files-container') !== null;
     }
 };

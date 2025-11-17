@@ -1,7 +1,15 @@
+import { logger } from '../../common/logger.js';
 import { ApplicationConfig } from '../../common/config.js';
+
 import { FileOperations } from '../../common/file.js';
 
 export const FileComponents = {
+    _getBrowserURL(path) {
+        return typeof browser !== 'undefined' 
+            ? browser.runtime.getURL(path)
+            : path;
+    },
+
     _createElement(tag, className, attributes = {}) {
         const el = document.createElement(tag);
         if (className) 
@@ -103,12 +111,6 @@ export const FileComponents = {
         return btn;
     },
 
-    _getBrowserURL(imagePath) {
-        return typeof browser !== 'undefined' 
-            ? browser.runtime.getURL(imagePath)
-            : imagePath;
-    },
-
     async _handleOpenClick(e, file, actionsDiv) {
         e.preventDefault();
         this._disableButtons(actionsDiv);
@@ -117,7 +119,7 @@ export const FileComponents = {
                 detail: { file }
             }));
         } catch (error) {
-            console.error('Error opening file:', error);
+            logger.error('Error opening file:', error);
             this._enableButtons(actionsDiv);
         }
     },
@@ -131,7 +133,7 @@ export const FileComponents = {
             }));
             setTimeout(() => this._enableButtons(actionsDiv), 500);
         } catch (error) {
-            console.error('Error downloading file:', error);
+            logger.error('Error downloading file:', error);
             this._enableButtons(actionsDiv);
         }
     },

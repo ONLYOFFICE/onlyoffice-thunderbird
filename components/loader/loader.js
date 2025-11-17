@@ -1,4 +1,12 @@
+import { logger } from '../../common/logger.js';
+
 export const LoaderComponent = {
+    _getBrowserURL(path) {
+        return typeof browser !== 'undefined' 
+            ? browser.runtime.getURL(path)
+            : path;
+    },
+
     _createElement(tag, className, attributes = {}) {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -12,12 +20,6 @@ export const LoaderComponent = {
             }
         });
         return el;
-    },
-
-    _getBrowserURL(imagePath) {
-        return typeof browser !== 'undefined' 
-            ? browser.runtime.getURL(imagePath)
-            : imagePath;
     },
 
     _createContainer() {
@@ -57,18 +59,23 @@ export const LoaderComponent = {
     },
 
     injectStyles() {
-        if (document.getElementById('loader-styles')) return;
+        if (document.getElementById('loader-styles'))
+            return;
         
         const link = document.createElement('link');
         link.id = 'loader-styles';
         link.rel = 'stylesheet';
-        link.href = typeof browser !== 'undefined' 
-            ? browser.runtime.getURL('components/loader/loader.css')
-            : './components/loader/loader.css';
+        link.href = this._getBrowserURL('components/loader/loader.css');
+        
+        link.addEventListener('error', () => {
+            logger.warn('Failed to load loader styles');
+        });
+        
         document.head.appendChild(link);
     },
 
     show(message = 'Loading...') {
+        this.injectStyles();
         
         const loader = this.createTemplate(message);
         const container = document.querySelector('.container');
@@ -85,7 +92,10 @@ export const LoaderComponent = {
 
     hide() {
         const loaderContainer = document.getElementById('loader-container');
-        if (loaderContainer)
-            loaderContainer.remove();
+        if (loaderContainer) loaderContainer.remove();
+    },
+
+    isVisible() {
+        return document.getElementById('loader-container') !== null;
     }
 };

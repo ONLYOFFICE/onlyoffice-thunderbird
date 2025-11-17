@@ -1,5 +1,7 @@
+import { logger } from '../../common/logger.js';
+
 export const ErrorComponent = {
-    getResourceURL(path) {
+    _getBrowserURL(path) {
         return typeof browser !== 'undefined' 
             ? browser.runtime.getURL(path)
             : path;
@@ -21,7 +23,7 @@ export const ErrorComponent = {
         container.id = 'error-container';
         container.className = 'error';
         
-        const iconSrc = this.getResourceURL('images/error.svg');
+        const iconSrc = this._getBrowserURL('images/error.svg');
         container.innerHTML = `
             <div class="error__content">
                 <div class="error__icon" aria-hidden="true">
@@ -41,10 +43,10 @@ export const ErrorComponent = {
         const link = document.createElement('link');
         link.id = 'error-styles';
         link.rel = 'stylesheet';
-        link.href = this.getResourceURL('components/error/error.css');
+        link.href = this._getBrowserURL('components/error/error.css');
         
         link.addEventListener('error', () => {
-            console.warn('Failed to load error styles');
+            logger.warn('Failed to load error styles');
         });
         
         document.head.appendChild(link);
@@ -60,5 +62,14 @@ export const ErrorComponent = {
         document.body.appendChild(errorPage);
         
         return errorPage;
+    },
+
+    hide() {
+        const errorContainer = document.getElementById('error-container');
+        if (errorContainer) errorContainer.remove();
+    },
+
+    isVisible() {
+        return document.getElementById('error-container') !== null;
     }
 };
