@@ -1,0 +1,17 @@
+{
+  "server": {
+    "url": "https://nsnz.ngrok.io"
+  },
+  "ui": {
+    "window": {
+      "width": 900,
+      "height": 700
+    }
+  },
+  "vendor": {
+    "formats": "./vendor/document-formats/onlyoffice-docs-formats.json"
+  },
+  "limits": {
+    "maxFileSizeMB": 100
+  }
+}

@@ -2,11 +2,11 @@
     "manifest_version": 2,
     "browser_specific_settings": {
         "gecko": {
-            "id": "helloworld@yoursite.com",
+            "id": "<some_address>@onlyoffice.com",
             "strict_min_version": "128.0"
         }
     },
-    "name": "ONLYOFFICE Document Server",
+    "name": "ONLYOFFICE Documents",
     "description": "Edit documents in Thunderbird using ONLYOFFICE Document Server",
     "version": "1.0",
     "author": "ONLYOFFICE",
@@ -14,7 +14,7 @@
     "icons": {
       "32": "images/icon.png"
     },
-    "content_security_policy": "script-src 'self' 'unsafe-eval' http://127.0.0.1:* https://127.0.0.1:* http://localhost:* https://localhost:*; object-src 'self'",
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://<some_address> http://localhost:* https://localhost:*; object-src 'self'",
     "permissions": [
       "messagesRead",
       "messagesModify",
@@ -24,11 +24,9 @@
       "compose",
       "downloads",
       "messagesMove",
-      "storage",
       "notifications",
       "activeTab",
-      "http://127.0.0.1:*/*",
-      "https://127.0.0.1:*/*",
+      "https://<some_address>/*",
       "http://localhost:*/*",
       "https://localhost:*/*"
     ],
@@ -36,6 +34,7 @@
       "scripts": [
         "background.js"
       ],
+      "type": "module",
       "persistent": true
     },
     "message_display_action": {
