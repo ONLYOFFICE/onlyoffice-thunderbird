@@ -1,4 +1,4 @@
-import { CONFIG } from '../../common/config.js';
+import { ApplicationConfig } from '../../common/config.js';
 import { FileOperations } from '../../common/file.js';
 
 export const FileComponents = {
@@ -169,8 +169,8 @@ export const FileComponents = {
             'diagram': 'images/diagram.svg'
         };
         
-        if (CONFIG.formatsData && Array.isArray(CONFIG.formatsData)) {
-            const format = CONFIG.formatsData.find(f => f.name === ext);
+        if (ApplicationConfig.formatsData && Array.isArray(ApplicationConfig.formatsData)) {
+            const format = ApplicationConfig.formatsData.find(f => f.name === ext);
             if (format && format.type) {
                 const icon = typeIconMap[format.type] || 'images/unknown.svg';
                 return this._getBrowserURL(icon);
@@ -181,8 +181,8 @@ export const FileComponents = {
     },
 
     _isExtensionEditable(extension) {
-        if (!CONFIG.formatsData || !Array.isArray(CONFIG.formatsData)) return false;
-        const format = CONFIG.formatsData.find(f => f.name === extension);
+        if (!ApplicationConfig.formatsData || !Array.isArray(ApplicationConfig.formatsData)) return false;
+        const format = ApplicationConfig.formatsData.find(f => f.name === extension);
         if (!format || !Array.isArray(format.actions)) return false;
         return format.actions.includes('edit');
     },

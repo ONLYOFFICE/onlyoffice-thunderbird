@@ -1,4 +1,4 @@
-export const CONFIG = {
+export const ApplicationConfig = {
     docServerUrl: '',
     formatsPath: '',
     ui: {},
@@ -26,12 +26,12 @@ export const CONFIG = {
     async init() {
         const configUrl = typeof browser !== 'undefined' 
             ? browser.runtime.getURL('config/config.json')
-            : './config/config.json';
+            : 'config/config.json';
         
-        const configResponse = await fetch(configUrl);
-        if (!configResponse.ok)
-            throw new Error(`Failed to load config: ${configResponse.status}`);
-        const configData = await configResponse.json();
+        const configData = await fetch(configUrl).then(response => {
+            if (!response.ok) throw new Error(`Failed to load config: ${response.status}`);
+            return response.json();
+        });
 
         this.docServerUrl = this.sanitizeUrl(configData.server.url);
         this.formatsPath = configData.vendor.formats;
@@ -42,44 +42,35 @@ export const CONFIG = {
             ? browser.runtime.getURL(this.formatsPath)
             : this.formatsPath;
         
-        const response = await fetch(formatsUrl);
-        if (!response.ok)
-            throw new Error(`Failed to load formats: ${response.status}`);
+        this.formatsData = await fetch(formatsUrl).then(response => {
+            if (!response.ok) throw new Error(`Failed to load formats: ${response.status}`);
+            return response.json();
+        });
         
-        this.formatsData = await response.json();
         this.buildDocumentFormats();
-        return true;
     },
 
     buildDocumentFormats() {
-        const documentFormats = {};
-
-        if (!this.formatsData || !Array.isArray(this.formatsData)) return;
+        if (!Array.isArray(this.formatsData)) return;
         
-        this.formatsData.forEach(format => {
+        this.documents = this.formatsData.reduce((formats, format) => {
             const type = format.type;
-            if (!documentFormats[type]) {
-                documentFormats[type] = {
-                    extensions: [],
-                    mimeTypes: [],
-                    actions: []
-                };
+            if (!formats[type]) {
+                formats[type] = { extensions: [], mimeTypes: [], actions: [] };
             }
             
-            documentFormats[type].extensions.push(format.name);
-            if (Array.isArray(format.mime)) {
-                documentFormats[type].mimeTypes.push(...format.mime);
-            }
-            if (Array.isArray(format.actions)) {
+            formats[type].extensions.push(format.name);
+            if (format.mime) formats[type].mimeTypes.push(...format.mime);
+            if (format.actions) {
                 format.actions.forEach(action => {
-                    if (!documentFormats[type].actions.includes(action)) {
-                        documentFormats[type].actions.push(action);
+                    if (!formats[type].actions.includes(action)) {
+                        formats[type].actions.push(action);
                     }
                 });
             }
-        });
-        
-        this.documents = documentFormats;
+            
+            return formats;
+        }, {});
     },
 
     getWindowDefaults() {

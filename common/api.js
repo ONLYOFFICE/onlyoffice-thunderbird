@@ -1,64 +1,102 @@
-function getParams() {
-    return new URLSearchParams(window.location.search);
-}
+import { logger } from './logger.js';
+import { FileOperations } from './file.js';
 
-function getMessageId() {
-    return getParams().get('messageId');
-}
+const params = new URLSearchParams(window.location.search);
+const getMessageId = () => params.get('messageId');
+const getComposeTabId = () => params.get('composeTabId');
+const sendMessage = (action, data = {}) => browser.runtime.sendMessage({ action, ...data });
 
-function getComposeTabId() {
-    return getParams().get('composeTabId');
-}
+const getComposeTabIdInt = () => {
+    const id = getComposeTabId();
+    return id ? parseInt(id) : null;
+};
+
+const getNumericMessageId = () => {
+    const id = getMessageId();
+    return id ? parseInt(id) : null;
+};
 
 export const ThunderbirdAPI = {
+    async processAttachments(attachments, messageId = null) {
+        if (!attachments?.length) return [];
+
+        return Promise.all(attachments.map(async (attachment) => {
+            try {
+                if (messageId) {
+                    const file = await browser.messages.getAttachmentFile(messageId, attachment.partName);
+                    return { ...attachment, url: URL.createObjectURL(file) };
+                }
+
+                return attachment;
+            } catch (error) {
+                logger.error(`Error processing attachment ${attachment.name}:`, error);
+                return attachment;
+            }
+        }));
+    },
+
+    async getMessageAttachments(messageId, messageHeader, message) {
+        const attachments = await browser.messages.listAttachments(messageId) 
+            || messageHeader.attachments 
+            || [];
+
+        if (!attachments.length && message?.parts) {
+            logger.debug("Looking for attachments in MIME parts");
+            return await FileOperations.findAttachments(message.parts);
+        }
+
+        return attachments;
+    },
+
+    validateMessageRequest(request) {
+        if (typeof request.messageId !== 'number')
+            throw new Error('Invalid message ID');
+    },
+
+    async validateComposeTab(tabId) {
+        await browser.tabs.get(tabId).catch(() => {
+            throw new Error(`Invalid compose tab: ${tabId}`);
+        });
+    },
+
     async getAttachmentData(file) {
-        const composeTabId = getComposeTabId();
+        const composeTabId = getComposeTabIdInt();
         if (composeTabId) {
-            const response = await browser.runtime.sendMessage({
-                action: 'getAttachmentData',
-                composeTabId: parseInt(composeTabId),
+            const response = await sendMessage('getAttachmentData', {
+                composeTabId,
                 attachmentId: file.id
             });
 
             if (!response.success) 
-                throw new Error(response.error || 'Failed to get attachment data');
-
+                throw new Error('Failed to get attachment data');
             return response.data;
         }
         
-        const response = await fetch(file.url, { credentials: 'include' });
-        if (!response.ok)
-            throw new Error(`Failed to fetch file: ${response.status}`);
-
-        return response.arrayBuffer();
+        return fetch(file.url, { credentials: 'include' }).then(response => {
+            if (!response.ok) throw new Error(`Failed to fetch file: ${response.status}`);
+            return response.arrayBuffer();
+        });
     },
 
     async getAttachments() {
-        const composeTabId = getComposeTabId();
-        const messageId = getMessageId();
-        
+        const composeTabId = getComposeTabIdInt();
         if (composeTabId) {
-            const details = await browser.runtime.sendMessage({
-                action: 'getComposeDetails',
-                composeTabId: parseInt(composeTabId),
+            const details = await sendMessage('getComposeDetails', {
+                composeTabId,
                 windowId: (await browser.windows.getCurrent()).id
             });
 
             if (!details?.attachments)
                 throw new Error('No attachments found');
-
             return details.attachments;
         }
         
+        const messageId = getNumericMessageId();
         if (messageId) {
-            const message = await browser.runtime.sendMessage({
-                action: 'getMessageData',
-                messageId: parseInt(messageId)
-            });
+            const message = await sendMessage('getMessageData', { messageId });
 
             if (!message?.attachments)
                 throw new Error('No attachments found');
-
             return message.attachments;
         }
         
@@ -66,18 +104,14 @@ export const ThunderbirdAPI = {
     },
 
     async getComposeDetails() {
-        const composeTabId = getComposeTabId();
-        return browser.runtime.sendMessage({
-            action: 'getComposeDetails',
-            composeTabId: parseInt(composeTabId)
+        return sendMessage('getComposeDetails', {
+            composeTabId: getComposeTabIdInt()
         });
     },
 
     async saveComposeAttachment(attachmentId, data, name, contentType) {
-        const composeTabId = getComposeTabId();
-        return browser.runtime.sendMessage({
-            action: 'saveComposeAttachment',
-            composeTabId: parseInt(composeTabId),
+        return sendMessage('saveComposeAttachment', {
+            composeTabId: getComposeTabIdInt(),
             attachmentId: parseInt(attachmentId),
             data: Array.from(new Uint8Array(data)),
             contentType,

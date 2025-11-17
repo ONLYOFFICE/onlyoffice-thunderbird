@@ -7,7 +7,7 @@ import { FileListComponent } from '../components/file/list.js';
 
 import { Router, TemplateRenderer } from './router.js';
 
-import { CONFIG } from '../common/config.js';
+import { ApplicationConfig } from '../common/config.js';
 import { FileOperations } from '../common/file.js';
 import { ThunderbirdAPI } from '../common/api.js';
 
@@ -29,7 +29,7 @@ const App = {
             router.registerRoute('viewer', new ViewerPage());
             
             await router.navigate('loading', { message: 'Loading documents...' });
-            await CONFIG.init();
+            await ApplicationConfig.init();
             const attachments = (await ThunderbirdAPI.getAttachments())
                 .filter(att => FileOperations.isSupportedFile(att));
             

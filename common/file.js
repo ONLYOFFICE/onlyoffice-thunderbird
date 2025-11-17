@@ -1,13 +1,6 @@
-import { CONFIG } from './config.js';
+import { ApplicationConfig } from './config.js';
 
 export const FileOperations = {
-    _genericMimeTypes: [
-        'application/octet-stream',
-        'application/zip',
-        'application/x-zip',
-        'application/x-zip-compressed'
-    ],
-
     _extract(part) {
         return {
             name: part.name,
@@ -18,10 +11,7 @@ export const FileOperations = {
     },
 
     _isValid(part) {
-        const hasName = part.name && typeof part.name === 'string';
-        const hasContentType = part.contentType && typeof part.contentType === 'string';
-        const hasPartName = part.partName && typeof part.partName === 'string';
-        return (hasName && hasContentType && hasPartName) || (hasName && this.isFilenameSupported(part.name));
+        return part.name && this.isFilenameSupported(part.name);
     },
 
     convertBuffer(buffer) {
@@ -38,18 +28,18 @@ export const FileOperations = {
     },
 
     formatSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
+        if (!bytes) return '0 Bytes';
         const sizes = ['Bytes', 'Kb', 'Mb', 'Gb'];
         const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
+        return `${(bytes / Math.pow(1024, i)).toFixed(2)} ${sizes[i]}`;
     },
 
     getFileExtension(filename) {
-        return filename ? filename.toLowerCase().split('.').pop() : '';
+        return filename?.toLowerCase().split('.').pop() || '';
     },
 
     getFileType(extension) {
-        for (const [type, docType] of Object.entries(CONFIG.documents)) {
+        for (const [type, docType] of Object.entries(ApplicationConfig.documents)) {
             if (docType.extensions.includes(extension)) {
                 return type;
             }
@@ -58,16 +48,11 @@ export const FileOperations = {
     },
 
     isSupportedFile(attachment) {
-        if (!attachment?.name) return false;
-        
-        const ext = this.getFileExtension(attachment.name);
-        const extSupported = CONFIG.getSupportedExtensions().includes(ext);
-        
-        return extSupported;
+        return attachment?.name && ApplicationConfig.isSupportedFile(attachment.name);
     },
 
     isFilenameSupported(filename) {
-        return CONFIG.isSupportedFile(filename);
+        return ApplicationConfig.isSupportedFile(filename);
     },
 
     async findAttachments(parts) {

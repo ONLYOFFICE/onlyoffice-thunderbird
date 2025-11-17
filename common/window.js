@@ -1,11 +1,12 @@
-import { CONFIG } from './config.js';
+import { logger } from './logger.js';
+import { ApplicationConfig } from './config.js';
 
 const WINDOW_KEYS = {
     MESSAGE: 'msg_',
     COMPOSE: 'compose_'
 };
 
-export const windowManager = {
+export const WindowManager = {
     openWindows: new Map(),
 
     _setupListener(windowKey, windowId) {
@@ -25,7 +26,7 @@ export const windowManager = {
             return null;
         }
 
-        const defaults = CONFIG.getWindowDefaults();
+        const defaults = ApplicationConfig.getWindowDefaults();
         const window = await browser.windows.create({
             url,
             type: "popup",
@@ -40,11 +41,57 @@ export const windowManager = {
         return window;
     },
 
-    getMessageId(windowKey) {
-        if (!windowKey?.startsWith(WINDOW_KEYS.MESSAGE))
-            throw new Error("Invalid window type");
-        return parseInt(windowKey.replace(WINDOW_KEYS.MESSAGE, ''), 10);
+    async openComposeViewer(tab) {
+        try {
+            await this.open(
+                `${WINDOW_KEYS.COMPOSE}${tab.id}`,
+                `pages/viewer.html?composeTabId=${tab.id}`
+            );
+        } catch (error) {
+            logger.error("Error opening compose viewer:", error);
+        }
+    },
+
+    async openMessageViewer(tab) {
+        try {
+            const messages = await browser.mailTabs.getSelectedMessages(tab.id);
+            if (!messages?.messages?.length)
+                throw new Error("No message selected");
+
+            const message = messages.messages[0];
+            await this.open(
+                `${WINDOW_KEYS.MESSAGE}${message.id}`,
+                `pages/viewer.html?messageId=${message.id}`
+            );
+        } catch (error) {
+            logger.error("Error opening viewer:", error);
+        }
+    },
+
+    async setupMenus() {
+        browser.menus.create({
+            id: "openInOnlyoffice",
+            title: "Open in ONLYOFFICE",
+            contexts: ["message_list"],
+            onclick: (info, tab) => this.openMessageViewer(tab)
+        });
+    },
+
+    async setupActions() {
+        if (browser.messageDisplayAction) {
+            browser.messageDisplayAction.onClicked.addListener((tab) => 
+                this.openMessageViewer(tab)
+            );
+        } else {
+            logger.warn("messageDisplayAction not available");
+        }
+
+        if (browser.composeAction) {
+            browser.composeAction.onClicked.addListener((tab) => 
+                this.openComposeViewer(tab)
+            );
+        } else {
+            logger.warn("composeAction not available");
+        }
     }
 };
-
-export { WINDOW_KEYS };
