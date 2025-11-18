@@ -20,18 +20,9 @@ export const ThunderbirdAPI = {
     async processAttachments(attachments, messageId = null) {
         if (!attachments?.length) return [];
 
-        return Promise.all(attachments.map(async (attachment) => {
-            try {
-                if (messageId) {
-                    const file = await browser.messages.getAttachmentFile(messageId, attachment.partName);
-                    return { ...attachment, url: URL.createObjectURL(file) };
-                }
-
-                return attachment;
-            } catch (error) {
-                logger.error(`Error processing attachment ${attachment.name}:`, error);
-                return attachment;
-            }
+        return attachments.map(attachment => ({
+            ...attachment,
+            _messageId: messageId
         }));
     },
 
@@ -72,10 +63,17 @@ export const ThunderbirdAPI = {
             return response.data;
         }
         
-        return fetch(file.url, { credentials: 'include' }).then(response => {
-            if (!response.ok) throw new Error(`Failed to fetch file: ${response.status}`);
-            return response.arrayBuffer();
-        });
+        const messageId = file._messageId || getNumericMessageId();
+        if (messageId && file.partName) {
+            try {
+                const fileBlob = await browser.messages.getAttachmentFile(messageId, file.partName);
+                return await fileBlob.arrayBuffer();
+            } catch (error) {
+                throw new Error(`Failed to get attachment file: ${error.message}`);
+            }
+        }
+        
+        throw new Error('Cannot get attachment data: no valid source or message ID');
     },
 
     async getAttachments() {
