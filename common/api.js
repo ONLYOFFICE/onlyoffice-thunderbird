@@ -1,4 +1,6 @@
 import { logger } from './logger.js';
+import { ACTIONS } from './constants.js';
+
 import { FileOperations } from './file.js';
 
 const params = new URLSearchParams(window.location.search);
@@ -53,7 +55,7 @@ export const ThunderbirdAPI = {
     async getAttachmentData(file) {
         const composeTabId = getComposeTabIdInt();
         if (composeTabId) {
-            const response = await sendMessage('getAttachmentData', {
+            const response = await sendMessage(ACTIONS.GET_ATTACHMENT_DATA, {
                 composeTabId,
                 attachmentId: file.id
             });
@@ -79,7 +81,7 @@ export const ThunderbirdAPI = {
     async getAttachments() {
         const composeTabId = getComposeTabIdInt();
         if (composeTabId) {
-            const details = await sendMessage('getComposeDetails', {
+            const details = await sendMessage(ACTIONS.GET_COMPOSE_DETAILS, {
                 composeTabId,
                 windowId: (await browser.windows.getCurrent()).id
             });
@@ -91,7 +93,7 @@ export const ThunderbirdAPI = {
         
         const messageId = getNumericMessageId();
         if (messageId) {
-            const message = await sendMessage('getMessageData', { messageId });
+            const message = await sendMessage(ACTIONS.GET_MESSAGE_DATA, { messageId });
 
             if (!message?.attachments)
                 throw new Error(messenger.i18n.getMessage('errorNoAttachmentsFound'));
@@ -102,13 +104,13 @@ export const ThunderbirdAPI = {
     },
 
     async getComposeDetails() {
-        return sendMessage('getComposeDetails', {
+        return sendMessage(ACTIONS.GET_COMPOSE_DETAILS, {
             composeTabId: getComposeTabIdInt()
         });
     },
 
     async saveComposeAttachment(attachmentId, data, name, contentType) {
-        return sendMessage('saveComposeAttachment', {
+        return sendMessage(ACTIONS.SAVE_COMPOSE_ATTACHMENT, {
             composeTabId: getComposeTabIdInt(),
             attachmentId: parseInt(attachmentId),
             data: Array.from(new Uint8Array(data)),

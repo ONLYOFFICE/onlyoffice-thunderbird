@@ -10,6 +10,7 @@ import { Router, TemplateRenderer } from './router.js';
 import { ApplicationConfig } from '../common/config.js';
 import { FileOperations } from '../common/file.js';
 import { ThunderbirdAPI } from '../common/api.js';
+import { EVENTS } from '../common/constants.js';
 
 const App = {
     async init() {
@@ -36,7 +37,7 @@ const App = {
             await router.navigate(attachments.length ? 'files' : 'empty', 
                 attachments.length ? { files: attachments } : {});
             
-            window.addEventListener('file:open', async (e) => {
+            window.addEventListener(EVENTS.FILE_OPEN, async (e) => {
                 try {
                     await router.navigate('viewer', { file: e.detail.file });
                 } catch (error) {
@@ -47,7 +48,7 @@ const App = {
                 }
             });
 
-            window.addEventListener('file:download', async (e) => {
+            window.addEventListener(EVENTS.FILE_DOWNLOAD, async (e) => {
                 try {
                     const arrayBuffer = await ThunderbirdAPI.getAttachmentData(e.detail.file);
                     const link = document.createElement('a');

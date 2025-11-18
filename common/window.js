@@ -1,10 +1,6 @@
 import { logger } from './logger.js';
+import { WINDOW_KEYS } from './constants.js';
 import { ApplicationConfig } from './config.js';
-
-const WINDOW_KEYS = {
-    MESSAGE: 'msg_',
-    COMPOSE: 'compose_'
-};
 
 export const WindowManager = {
     openWindows: new Map(),

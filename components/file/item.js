@@ -1,5 +1,6 @@
 import { logger } from '../../common/logger.js';
 import { ApplicationConfig } from '../../common/config.js';
+import { EVENTS, FORMAT_ACTIONS } from '../../common/constants.js';
 
 import { FileOperations } from '../../common/file.js';
 
@@ -119,7 +120,7 @@ export const FileComponents = {
         e.preventDefault();
         this._disableButtons(actionsDiv);
         try {
-            window.dispatchEvent(new CustomEvent('file:open', {
+            window.dispatchEvent(new CustomEvent(EVENTS.FILE_OPEN, {
                 detail: { file }
             }));
         } catch (error) {
@@ -132,7 +133,7 @@ export const FileComponents = {
         e.preventDefault();
         this._disableButtons(actionsDiv);
         try {
-            window.dispatchEvent(new CustomEvent('file:download', {
+            window.dispatchEvent(new CustomEvent(EVENTS.FILE_DOWNLOAD, {
                 detail: { file }
             }));
             setTimeout(() => this._enableButtons(actionsDiv), 500);
@@ -190,7 +191,7 @@ export const FileComponents = {
         if (!ApplicationConfig.formatsData || !Array.isArray(ApplicationConfig.formatsData)) return false;
         const format = ApplicationConfig.formatsData.find(f => f.name === extension);
         if (!format || !Array.isArray(format.actions)) return false;
-        return format.actions.includes('edit');
+        return format.actions.includes(FORMAT_ACTIONS.EDIT);
     },
 
     _disableButtons(actionsDiv) {
