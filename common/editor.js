@@ -1,12 +1,44 @@
 import { ThunderbirdAPI } from './api.js';
 import { FileOperations } from './file.js';
 import { ApplicationConfig } from './config.js';
+import { FORMAT_ACTIONS, ACTIONS } from './constants.js';
 
 const getComposeTabId = () => new URLSearchParams(window.location.search).get('composeTabId');
 
 export const DocumentEditor = {
     instance: null,
     config: null,
+
+    _getPermissions(extension) {
+        const format = ApplicationConfig.formatsData?.find(f => f.name === extension);
+        const actions = format?.actions || [];
+
+        return {
+            download: true,
+            edit: actions.includes(FORMAT_ACTIONS.EDIT),
+            print: true,
+            review: actions.includes(FORMAT_ACTIONS.REVIEW),
+            comment: actions.includes(FORMAT_ACTIONS.COMMENT),
+            fillForms: actions.includes(FORMAT_ACTIONS.FILL),
+            modifyFilter: actions.includes(FORMAT_ACTIONS.CUSTOM_FILTER),
+            modifyContentControl: actions.includes(FORMAT_ACTIONS.EDIT)
+        };
+    },
+
+    async _getUserInfo() {
+        try {
+            const response = await browser.runtime.sendMessage({ 
+                action: ACTIONS.GET_USER_INFO 
+            });
+            
+            if (response?.success && response?.userInfo)
+                return response.userInfo;
+        } catch (error) {
+            console.warn('Could not fetch user info from Thunderbird:', error);
+        }
+
+        return {};
+    },
 
     async loadApiJs() {
         const url = ApplicationConfig.docServerUrl;
@@ -67,25 +99,25 @@ export const DocumentEditor = {
         }
     },
 
-    buildConfig(data, name, extension, type) {
+    async buildConfig(data, name, extension, type) {
+        const permissions = this._getPermissions(extension);
+        const mode = permissions.edit ? 'edit' : 'view';
+        const userInfo = await this._getUserInfo();
+
         return {
             documentData: data,
             document: {
                 fileType: extension,
                 title: name,
                 url: "_data_",
-                permissions: {
-                    download: true,
-                    edit: true,
-                    print: true,
-                    review: false
-                }
+                permissions: permissions
             },
             documentType: type,
             height: '100%',
             width: '100%',
             editorConfig: {
-                mode: 'edit',
+                mode: mode,
+                user: userInfo,
                 customization: {
                     about: false,
                     feedback: false,
@@ -104,8 +136,7 @@ export const DocumentEditor = {
         if (typeof DocsAPI === 'undefined')
             throw new Error(messenger.i18n.getMessage('errorDocApiNotLoaded'));
 
-        this.config = this.buildConfig(data, name, extension, type);
+        this.config = await this.buildConfig(data, name, extension, type);
         this.instance = new DocsAPI.DocEditor('placeholder', this.config);
     }
 };
-

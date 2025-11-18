@@ -80,5 +80,34 @@ export const MessageHandlers = {
 
         await browser.compose.addAttachment(tabId, { file, name });
         sendResponse({ success: true });
+    }),
+
+    getUserInfo: withErrorHandling(async (request, sendResponse) => {
+        try {
+            const accounts = await browser.accounts.list();
+            if (accounts.length > 0) {
+                const account = accounts[0];
+                const identity = account.identities?.[0];
+                
+                if (identity && identity.id && identity.name && identity.email) {
+                    sendResponse({
+                        success: true,
+                        userInfo: {
+                            id: identity.id,
+                            name: identity.name,
+                            email: identity.email
+                        }
+                    });
+                    return;
+                }
+            }
+        } catch (error) {
+            logger.error('Error fetching user info:', error);
+        }
+
+        sendResponse({
+            success: false,
+            userInfo: {}
+        });
     })
 };

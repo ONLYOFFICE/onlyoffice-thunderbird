@@ -7,6 +7,7 @@ export const ACTIONS = {
     GET_ATTACHMENT_DATA: 'getAttachmentData',
     GET_COMPOSE_DETAILS: 'getComposeDetails',
     GET_MESSAGE_DATA: 'getMessageData',
+    GET_USER_INFO: 'getUserInfo',
     SAVE_COMPOSE_ATTACHMENT: 'saveComposeAttachment'
 };
 
