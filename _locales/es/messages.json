@@ -1,4 +1,10 @@
 {
+    "extensionName": {
+        "message": "ONLYOFFICE Documents ES"
+    },
+    "extensionDescription": {
+        "message": "Edit documents in Thunderbird using ONLYOFFICE Document Server ES"
+    },
     "openEditor": {
         "message": "Open in ONLYOFFICE ES"
     },
