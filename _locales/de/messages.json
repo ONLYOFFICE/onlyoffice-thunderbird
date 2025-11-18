@@ -82,5 +82,68 @@
     },
     "templateRenderFailed": {
         "message": "Failed to render template: __%TEMPLATE%__ DE"
+    },
+    "errorInvalidMessageId": {
+        "message": "Invalid message ID DE"
+    },
+    "errorInvalidComposeTab": {
+        "message": "Invalid compose tab: __%TAB_ID%__ DE"
+    },
+    "errorFailedGetAttachmentData": {
+        "message": "Failed to get attachment data DE"
+    },
+    "errorFailedGetAttachmentFile": {
+        "message": "Failed to get attachment file: __%ERROR%__ DE"
+    },
+    "errorCannotGetAttachmentData": {
+        "message": "Cannot get attachment data: no valid source or message ID DE"
+    },
+    "errorNoAttachmentsFound": {
+        "message": "No attachments found DE"
+    },
+    "errorNoValidId": {
+        "message": "No valid message or compose ID DE"
+    },
+    "errorNoMessageSelected": {
+        "message": "No message selected DE"
+    },
+    "errorMessageNotFound": {
+        "message": "Message not found DE"
+    },
+    "errorNoComposeTabId": {
+        "message": "No compose tab ID provided DE"
+    },
+    "errorAttachmentNotFound": {
+        "message": "Attachment __%ATTACHMENT_ID%__ not found DE"
+    },
+    "errorDocServerNotConfigured": {
+        "message": "Document server URL is not configured DE"
+    },
+    "errorAttachmentNotFoundInCompose": {
+        "message": "Attachment not found in compose window DE"
+    },
+    "errorFailedSaveFile": {
+        "message": "Failed to save file DE"
+    },
+    "errorDocApiNotLoaded": {
+        "message": "ONLYOFFICE Document API not loaded DE"
+    },
+    "errorFailedLoadDocApi": {
+        "message": "Failed to load ONLYOFFICE Document API from __%URL%__ DE"
+    },
+    "errorServerUrlRequired": {
+        "message": "Server URL is required DE"
+    },
+    "errorServerUrlInvalidProtocol": {
+        "message": "Server URL must use HTTPS protocol DE"
+    },
+    "errorInvalidServerUrl": {
+        "message": "Invalid server URL format DE"
+    },
+    "errorFailedLoadConfig": {
+        "message": "Failed to load config: __%STATUS%__ DE"
+    },
+    "errorFailedLoadFormats": {
+        "message": "Failed to load formats: __%STATUS%__ DE"
     }
 }

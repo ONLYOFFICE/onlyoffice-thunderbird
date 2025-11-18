@@ -10,13 +10,13 @@ export const DocumentEditor = {
 
     async loadApiJs() {
         const url = ApplicationConfig.docServerUrl;
-        if (!url) throw new Error('Document server url is not configured');
+        if (!url) throw new Error(messenger.i18n.getMessage('errorDocServerNotConfigured'));
         
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
             script.src = `${url}/web-apps/apps/api/documents/api.js`;
             script.onload = resolve;
-            script.onerror = () => reject(new Error(`Failed to load ONLYOFFICE Document API from ${url}`));
+            script.onerror = () => reject(new Error(messenger.i18n.getMessage('errorFailedLoadDocApi').replace('__%URL%__', url)));
             document.head.appendChild(script);
         });
     },
@@ -29,7 +29,7 @@ export const DocumentEditor = {
     async saveFile(blob, name) {
         const details = await ThunderbirdAPI.getComposeDetails();
         const attachment = details?.attachments?.find(att => att.name === name);
-        if (!attachment) throw new Error('Attachment not found in compose window');
+        if (!attachment) throw new Error(messenger.i18n.getMessage('errorAttachmentNotFoundInCompose'));
 
         const response = await ThunderbirdAPI.saveComposeAttachment(
             attachment.id,
@@ -38,7 +38,7 @@ export const DocumentEditor = {
             attachment.contentType || 'application/octet-stream'
         );
 
-        if (!response.success) throw new Error('Failed to save file');
+        if (!response.success) throw new Error(messenger.i18n.getMessage('errorFailedSaveFile'));
     },
 
     downloadFile(blob, name) {
@@ -102,7 +102,7 @@ export const DocumentEditor = {
     async init(data, name, extension, type) {
         await this.loadApiJs();
         if (typeof DocsAPI === 'undefined')
-            throw new Error('ONLYOFFICE Document API not loaded');
+            throw new Error(messenger.i18n.getMessage('errorDocApiNotLoaded'));
 
         this.config = this.buildConfig(data, name, extension, type);
         this.instance = new DocsAPI.DocEditor('placeholder', this.config);

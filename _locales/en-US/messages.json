@@ -82,5 +82,68 @@
     },
     "templateRenderFailed": {
         "message": "Failed to render template: __%TEMPLATE%__"
+    },
+    "errorInvalidMessageId": {
+        "message": "Invalid message ID"
+    },
+    "errorInvalidComposeTab": {
+        "message": "Invalid compose tab: __%TAB_ID%__"
+    },
+    "errorFailedGetAttachmentData": {
+        "message": "Failed to get attachment data"
+    },
+    "errorFailedGetAttachmentFile": {
+        "message": "Failed to get attachment file: __%ERROR%__"
+    },
+    "errorCannotGetAttachmentData": {
+        "message": "Cannot get attachment data: no valid source or message ID"
+    },
+    "errorNoAttachmentsFound": {
+        "message": "No attachments found"
+    },
+    "errorNoValidId": {
+        "message": "No valid message or compose ID"
+    },
+    "errorNoMessageSelected": {
+        "message": "No message selected"
+    },
+    "errorMessageNotFound": {
+        "message": "Message not found"
+    },
+    "errorNoComposeTabId": {
+        "message": "No compose tab ID provided"
+    },
+    "errorAttachmentNotFound": {
+        "message": "Attachment __%ATTACHMENT_ID%__ not found"
+    },
+    "errorDocServerNotConfigured": {
+        "message": "Document server URL is not configured"
+    },
+    "errorAttachmentNotFoundInCompose": {
+        "message": "Attachment not found in compose window"
+    },
+    "errorFailedSaveFile": {
+        "message": "Failed to save file"
+    },
+    "errorDocApiNotLoaded": {
+        "message": "ONLYOFFICE Document API not loaded"
+    },
+    "errorFailedLoadDocApi": {
+        "message": "Failed to load ONLYOFFICE Document API from __%URL%__"
+    },
+    "errorServerUrlRequired": {
+        "message": "Server URL is required"
+    },
+    "errorServerUrlInvalidProtocol": {
+        "message": "Server URL must use HTTPS protocol"
+    },
+    "errorInvalidServerUrl": {
+        "message": "Invalid server URL format"
+    },
+    "errorFailedLoadConfig": {
+        "message": "Failed to load config: __%STATUS%__"
+    },
+    "errorFailedLoadFormats": {
+        "message": "Failed to load formats: __%STATUS%__"
     }
 }

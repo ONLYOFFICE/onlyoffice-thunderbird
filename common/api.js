@@ -41,12 +41,12 @@ export const ThunderbirdAPI = {
 
     validateMessageRequest(request) {
         if (typeof request.messageId !== 'number')
-            throw new Error('Invalid message ID');
+            throw new Error(messenger.i18n.getMessage('errorInvalidMessageId'));
     },
 
     async validateComposeTab(tabId) {
         await browser.tabs.get(tabId).catch(() => {
-            throw new Error(`Invalid compose tab: ${tabId}`);
+            throw new Error(messenger.i18n.getMessage('errorInvalidComposeTab').replace('__%TAB_ID%__', tabId));
         });
     },
 
@@ -59,7 +59,7 @@ export const ThunderbirdAPI = {
             });
 
             if (!response.success) 
-                throw new Error('Failed to get attachment data');
+                throw new Error(messenger.i18n.getMessage('errorFailedGetAttachmentData'));
             return response.data;
         }
         
@@ -69,11 +69,11 @@ export const ThunderbirdAPI = {
                 const fileBlob = await browser.messages.getAttachmentFile(messageId, file.partName);
                 return await fileBlob.arrayBuffer();
             } catch (error) {
-                throw new Error(`Failed to get attachment file: ${error.message}`);
+                throw new Error(messenger.i18n.getMessage('errorFailedGetAttachmentFile').replace('__%ERROR%__', error.message));
             }
         }
         
-        throw new Error('Cannot get attachment data: no valid source or message ID');
+        throw new Error(messenger.i18n.getMessage('errorCannotGetAttachmentData'));
     },
 
     async getAttachments() {
@@ -85,7 +85,7 @@ export const ThunderbirdAPI = {
             });
 
             if (!details?.attachments)
-                throw new Error('No attachments found');
+                throw new Error(messenger.i18n.getMessage('errorNoAttachmentsFound'));
             return details.attachments;
         }
         
@@ -94,11 +94,11 @@ export const ThunderbirdAPI = {
             const message = await sendMessage('getMessageData', { messageId });
 
             if (!message?.attachments)
-                throw new Error('No attachments found');
+                throw new Error(messenger.i18n.getMessage('errorNoAttachmentsFound'));
             return message.attachments;
         }
         
-        throw new Error('No valid message or compose id');
+        throw new Error(messenger.i18n.getMessage('errorNoValidId'));
     },
 
     async getComposeDetails() {

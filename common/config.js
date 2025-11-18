@@ -8,16 +8,16 @@ export const ApplicationConfig = {
 
     sanitizeUrl(url) {
         if (!url)
-            throw new Error('Server URL is required');
+            throw new Error(messenger.i18n.getMessage('errorServerUrlRequired'));
         url = url.replace(/\/+$/, '');
 
         if (!url.startsWith('https://'))
-            throw new Error('Server URL must use HTTPS protocol');
+            throw new Error(messenger.i18n.getMessage('errorServerUrlInvalidProtocol'));
         
         try {
             new URL(url);
         } catch (error) {
-            throw new Error('Invalid server URL format');
+            throw new Error(messenger.i18n.getMessage('errorInvalidServerUrl'));
         }
         
         return url;
@@ -29,7 +29,7 @@ export const ApplicationConfig = {
             : 'config/config.json';
         
         const configData = await fetch(configUrl).then(response => {
-            if (!response.ok) throw new Error(`Failed to load config: ${response.status}`);
+            if (!response.ok) throw new Error(messenger.i18n.getMessage('errorFailedLoadConfig').replace('__%STATUS%__', response.status));
             return response.json();
         });
 
@@ -43,7 +43,7 @@ export const ApplicationConfig = {
             : this.formatsPath;
         
         this.formatsData = await fetch(formatsUrl).then(response => {
-            if (!response.ok) throw new Error(`Failed to load formats: ${response.status}`);
+            if (!response.ok) throw new Error(messenger.i18n.getMessage('errorFailedLoadFormats').replace('__%STATUS%__', response.status));
             return response.json();
         });
         

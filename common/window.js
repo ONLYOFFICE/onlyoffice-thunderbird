@@ -56,7 +56,7 @@ export const WindowManager = {
         try {
             const messages = await browser.mailTabs.getSelectedMessages(tab.id);
             if (!messages?.messages?.length)
-                throw new Error("No message selected");
+                throw new Error(messenger.i18n.getMessage('errorNoMessageSelected'));
 
             const message = messages.messages[0];
             await this.open(

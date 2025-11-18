@@ -15,7 +15,7 @@ export const MessageHandlers = {
         ThunderbirdAPI.validateMessageRequest(request);
 
         const messageHeader = await browser.messages.get(request.messageId);
-        if (!messageHeader) throw new Error('Message not found');
+        if (!messageHeader) throw new Error(messenger.i18n.getMessage('errorMessageNotFound'));
 
         const fullMessage = await browser.messages.getFull(request.messageId);
         const attachments = await ThunderbirdAPI.getMessageAttachments(request.messageId, messageHeader, fullMessage);
@@ -28,7 +28,7 @@ export const MessageHandlers = {
     }),
 
     getComposeDetails: withErrorHandling(async (request, sendResponse) => {
-        if (!request.composeTabId) throw new Error('No compose tab ID provided');
+        if (!request.composeTabId) throw new Error(messenger.i18n.getMessage('errorNoComposeTabId'));
 
         const details = await browser.compose.getComposeDetails(request.composeTabId);
         const attachments = await browser.compose.listAttachments(request.composeTabId);
@@ -41,16 +41,16 @@ export const MessageHandlers = {
     }),
 
     getAttachmentData: withErrorHandling(async (request, sendResponse) => {
-        if (!request.composeTabId) throw new Error("No compose tab ID provided");
+        if (!request.composeTabId) throw new Error(messenger.i18n.getMessage('errorNoComposeTabId'));
 
         const tabId = parseInt(request.composeTabId);
         await ThunderbirdAPI.validateComposeTab(tabId);
 
         const attachments = await browser.compose.listAttachments(tabId);
-        if (!attachments?.length) throw new Error("No attachments found");
+        if (!attachments?.length) throw new Error(messenger.i18n.getMessage('errorNoAttachmentsFound'));
 
         const attachment = attachments.find(att => att.id === request.attachmentId);
-        if (!attachment) throw new Error(`Attachment ${request.attachmentId} not found`);
+        if (!attachment) throw new Error(messenger.i18n.getMessage('errorAttachmentNotFound').replace('__%ATTACHMENT_ID%__', request.attachmentId));
 
         const file = await browser.compose.getAttachmentFile(attachment.id);
         const arrayBuffer = await file.arrayBuffer();
