@@ -11,11 +11,7 @@ export const EmptyStateComponent = {
         this.injectStyles();
     },
 
-    createTemplate() {
-        const title = messenger.i18n.getMessage('emptyStateTitle');
-        const subtitle = messenger.i18n.getMessage('emptyStateSubtitle');
-        const altText = messenger.i18n.getMessage('emptyStateIllustration');
-        
+    createTemplate(title, subtitle, altText) {
         const container = document.createElement('div');
         container.id = 'empty-state';
         container.className = 'empty-state';
@@ -53,10 +49,10 @@ export const EmptyStateComponent = {
         document.head.appendChild(link);
     },
 
-    show() {
+    show(title, subtitle, altText) {
         this.injectStyles();
         
-        const emptyState = this.createTemplate();
+        const emptyState = this.createTemplate(title, subtitle, altText);
         const container = document.querySelector('.container');
         
         if (container) {

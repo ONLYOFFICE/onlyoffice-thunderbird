@@ -26,23 +26,23 @@ export const FileComponents = {
         return el;
     },
 
-    createFileItem(file) {
+    createFileItem(file, translations = {}) {
         const extension = FileOperations.getFileExtension(file.name);
         const isEditable = this._isExtensionEditable(extension);
         
         const li = this._createElement('li', 'file-item');
-        li.appendChild(this._createFileIcon(file));
+        li.appendChild(this._createFileIcon(file, translations.fileIcon || 'File icon'));
         li.appendChild(this._createFileInfo(file));
-        li.appendChild(this._createFileActions(file, isEditable));
+        li.appendChild(this._createFileActions(file, isEditable, translations));
         
         return li;
     },
 
-    _createFileIcon(file) {
+    _createFileIcon(file, altText) {
         const iconDiv = this._createElement('div', 'file-item__icon');
         const img = this._createElement('img', '', {
             src: this._getFileIcon(file),
-            alt: messenger.i18n.getMessage('fileIcon')
+            alt: altText
         });
         iconDiv.appendChild(img);
         return iconDiv;
@@ -80,11 +80,11 @@ export const FileComponents = {
         });
     },
 
-    _createFileActions(file, isEditable) {
+    _createFileActions(file, isEditable, translations) {
         const actionsDiv = this._createElement('div', 'file-item__actions');
         const openLabel = isEditable 
-            ? messenger.i18n.getMessage('editOnlyoffice')
-            : messenger.i18n.getMessage('viewOnlyoffice');
+            ? (translations.editOnlyoffice || 'Edit in ONLYOFFICE')
+            : (translations.viewOnlyoffice || 'View in ONLYOFFICE');
         
         actionsDiv.appendChild(this._createActionButton(
             isEditable ? 'images/pencil.svg' : 'images/eye.svg',
@@ -94,7 +94,7 @@ export const FileComponents = {
 
         actionsDiv.appendChild(this._createActionButton(
             'images/download.svg',
-            messenger.i18n.getMessage('download'),
+            translations.download || 'Download',
             (e) => this._handleDownloadClick(e, file, actionsDiv)
         ));
 
@@ -142,7 +142,7 @@ export const FileComponents = {
         }
     },
 
-    displayFileList(files, containerId = 'file-list') {
+    displayFileList(files, containerId = 'file-list', translations = {}) {
         const fileList = document.getElementById(containerId);
         if (!fileList) return;
 
@@ -160,7 +160,7 @@ export const FileComponents = {
             noFilesMsg.classList.remove('files-container__empty-message--visible');
 
         files.forEach(file => {
-            fileList.appendChild(this.createFileItem(file));
+            fileList.appendChild(this.createFileItem(file, translations));
         });
     },
 

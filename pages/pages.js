@@ -92,11 +92,23 @@ export class FileListPage extends PageComponent {
     constructor() {
         super(null);
         this.files = [];
+        this.translations = {};
     }
 
     async render(data) {
         this.files = data?.files || [];
-        this.element = FileListComponent.createTemplate();
+        this.translations = {
+            fileListTitle: messenger.i18n.getMessage('fileListTitle'),
+            noDocumentsFound: messenger.i18n.getMessage('noDocumentsFound'),
+            fileIcon: messenger.i18n.getMessage('fileIcon'),
+            editOnlyoffice: messenger.i18n.getMessage('editOnlyoffice'),
+            viewOnlyoffice: messenger.i18n.getMessage('viewOnlyoffice'),
+            download: messenger.i18n.getMessage('download')
+        };
+        this.element = FileListComponent.createTemplate(
+            this.translations.fileListTitle,
+            this.translations.noDocumentsFound
+        );
         this.renderFileItems();
         
         return this.element;
@@ -117,13 +129,14 @@ export class FileListPage extends PageComponent {
         noFilesTextElement?.classList.remove('show');
 
         this.files.forEach((file) => {
-            const fileItem = FileComponents.createFileItem(file);
+            const fileItem = FileComponents.createFileItem(file, this.translations);
             container.appendChild(fileItem);
         });
     }
 
     async cleanup() {
         this.files = [];
+        this.translations = {};
     }
 }
 
@@ -141,7 +154,8 @@ export class ViewerPage extends PageComponent {
         
         const fileName = data?.file?.name || 'file';
         const loadingMessage = messenger.i18n.getMessage('openingFile').replace('__%FILE%__', fileName);
-        const loaderTemplate = LoaderComponent.createTemplate(loadingMessage);
+        const loadingAltText = messenger.i18n.getMessage('loading');
+        const loaderTemplate = LoaderComponent.createTemplate(loadingMessage, loadingAltText);
         loaderTemplate.style.animation = 'fadeIn 0.3s ease-in';
         this.element.appendChild(loaderTemplate);
         

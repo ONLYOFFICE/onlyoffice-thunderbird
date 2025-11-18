@@ -28,10 +28,10 @@ export const LoaderComponent = {
         });
     },
 
-    _createSpinner() {
+    _createSpinner(altText) {
         return this._createElement('img', 'loader-container__spinner', {
             src: this._getBrowserURL('images/loader.svg'),
-            alt: messenger.i18n.getMessage('loading')
+            alt: altText
         });
     },
 
@@ -41,9 +41,9 @@ export const LoaderComponent = {
         });
     },
 
-    _createLoaderBox(message) {
+    _createLoaderBox(message, altText) {
         const loaderBox = this._createElement('div', 'loader-container__box');
-        loaderBox.appendChild(this._createSpinner());
+        loaderBox.appendChild(this._createSpinner(altText));
         loaderBox.appendChild(this._createMessage(message));
         return loaderBox;
     },
@@ -52,10 +52,9 @@ export const LoaderComponent = {
         this.injectStyles();
     },
 
-    createTemplate(message) {
-        const defaultMessage = messenger.i18n.getMessage('loadingDefault');
+    createTemplate(message, altText = 'Loading') {
         const container = this._createContainer();
-        container.appendChild(this._createLoaderBox(message || defaultMessage));
+        container.appendChild(this._createLoaderBox(message, altText));
         return container;
     },
 
@@ -75,10 +74,10 @@ export const LoaderComponent = {
         document.head.appendChild(link);
     },
 
-    show(message) {
+    show(message, altText = 'Loading') {
         this.injectStyles();
         
-        const loader = this.createTemplate(message);
+        const loader = this.createTemplate(message, altText);
         const container = document.querySelector('.container');
         
         if (container) {

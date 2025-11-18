@@ -1,7 +1,5 @@
 import { logger } from '../../common/logger.js';
 
-import { LoaderComponent } from '../loader/loader.js';
-
 export const FileListComponent = {
     _getBrowserURL(path) {
         return typeof browser !== 'undefined' 
@@ -30,9 +28,9 @@ export const FileListComponent = {
         });
     },
 
-    _createTitle() {
+    _createTitle(title) {
         return this._createElement('h1', 'files-container__title', {
-            textContent: messenger.i18n.getMessage('fileListTitle')
+            textContent: title
         });
     },
 
@@ -42,30 +40,29 @@ export const FileListComponent = {
         });
     },
 
-    _createEmptyMessage() {
+    _createEmptyMessage(emptyMessage) {
         return this._createElement('div', 'files-container__empty-message', {
             id: 'no-files',
-            textContent: messenger.i18n.getMessage('noDocumentsFound')
+            textContent: emptyMessage
         });
     },
 
-    _createScrollableContent() {
+    _createScrollableContent(emptyMessage) {
         const scrollableContent = this._createElement('div', 'files-container__scrollable-content');
         scrollableContent.appendChild(this._createFileList());
-        scrollableContent.appendChild(this._createEmptyMessage());
+        scrollableContent.appendChild(this._createEmptyMessage(emptyMessage));
         return scrollableContent;
     },
 
     init() {
         this.injectStyles();
-        LoaderComponent.show(messenger.i18n.getMessage('loadingDocuments'));
         return true;
     },
 
-    createTemplate() {
+    createTemplate(title, emptyMessage) {
         const container = this._createContainer();
-        container.appendChild(this._createTitle());
-        container.appendChild(this._createScrollableContent());
+        container.appendChild(this._createTitle(title));
+        container.appendChild(this._createScrollableContent(emptyMessage));
         return container;
     },
 
