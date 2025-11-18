@@ -28,22 +28,22 @@ const App = {
             router.registerRoute('files', new FileListPage());
             router.registerRoute('viewer', new ViewerPage());
             
-            await router.navigate('loading', { message: 'Loading documents...' });
+            await router.navigate('loading', { message: messenger.i18n.getMessage('loadingDocuments') });
             await ApplicationConfig.init();
             const attachments = (await ThunderbirdAPI.getAttachments())
                 .filter(att => FileOperations.isSupportedFile(att));
             
             await router.navigate(attachments.length ? 'files' : 'empty', 
-                attachments.length ? { files: attachments } : {
-                    title: 'No documents here yet',
-                    subtitle: 'Any supported files you upload will show up here.'
-                });
+                attachments.length ? { files: attachments } : {});
             
             window.addEventListener('file:open', async (e) => {
                 try {
                     await router.navigate('viewer', { file: e.detail.file });
                 } catch (error) {
-                    router.navigate('error', { title: 'Cannot Open File', message: error.message });
+                    router.navigate('error', { 
+                        title: messenger.i18n.getMessage('cannotOpenFile'), 
+                        message: error.message 
+                    });
                 }
             });
 
@@ -58,11 +58,17 @@ const App = {
                     link.remove();
                     URL.revokeObjectURL(link.href);
                 } catch (error) {
-                    router.navigate('error', { title: 'Download Failed', message: error.message });
+                    router.navigate('error', { 
+                        title: messenger.i18n.getMessage('downloadFailed'), 
+                        message: error.message 
+                    });
                 }
             });
         } catch (error) {
-            ErrorComponent.show('Initialization Failed', error.message);
+            ErrorComponent.show(
+                messenger.i18n.getMessage('initializationFailed'), 
+                error.message
+            );
         }
     }
 };

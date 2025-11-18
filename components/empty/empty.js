@@ -11,7 +11,11 @@ export const EmptyStateComponent = {
         this.injectStyles();
     },
 
-    createTemplate(title, subtitle) {
+    createTemplate() {
+        const title = messenger.i18n.getMessage('emptyStateTitle');
+        const subtitle = messenger.i18n.getMessage('emptyStateSubtitle');
+        const altText = messenger.i18n.getMessage('emptyStateIllustration');
+        
         const container = document.createElement('div');
         container.id = 'empty-state';
         container.className = 'empty-state';
@@ -23,7 +27,7 @@ export const EmptyStateComponent = {
         container.innerHTML = `
             <div class="empty-state__box">
                 <div class="empty-state__icon" aria-hidden="true">
-                    <img class="empty-state__icon-img" src="${icon}" alt="Empty state illustration" loading="lazy">
+                    <img class="empty-state__icon-img" src="${icon}" alt="${altText}" loading="lazy">
                 </div>
                 <div class="empty-state__title" role="heading" aria-level="1">${title}</div>
                 <div class="empty-state__subtitle">${subtitle}</div>
@@ -49,10 +53,10 @@ export const EmptyStateComponent = {
         document.head.appendChild(link);
     },
 
-    show(title = 'No docs here yet', subtitle = 'Any files you upload will show up here.') {
+    show() {
         this.injectStyles();
         
-        const emptyState = this.createTemplate(title, subtitle);
+        const emptyState = this.createTemplate();
         const container = document.querySelector('.container');
         
         if (container) {

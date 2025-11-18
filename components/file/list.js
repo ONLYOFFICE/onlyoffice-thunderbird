@@ -32,7 +32,7 @@ export const FileListComponent = {
 
     _createTitle() {
         return this._createElement('h1', 'files-container__title', {
-            textContent: 'ONLYOFFICE Documents'
+            textContent: messenger.i18n.getMessage('fileListTitle')
         });
     },
 
@@ -45,7 +45,7 @@ export const FileListComponent = {
     _createEmptyMessage() {
         return this._createElement('div', 'files-container__empty-message', {
             id: 'no-files',
-            textContent: 'No Office documents found'
+            textContent: messenger.i18n.getMessage('noDocumentsFound')
         });
     },
 
@@ -58,7 +58,7 @@ export const FileListComponent = {
 
     init() {
         this.injectStyles();
-        LoaderComponent.show('Loading ONLYOFFICE Documents...');
+        LoaderComponent.show(messenger.i18n.getMessage('loadingDocuments'));
         return true;
     },
 

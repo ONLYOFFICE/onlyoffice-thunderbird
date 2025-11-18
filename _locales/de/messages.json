@@ -1,0 +1,86 @@
+{
+    "openEditor": {
+        "message": "Open in ONLYOFFICE DE"
+    },
+    "emptyStateTitle": {
+        "message": "No docs here yet DE"
+    },
+    "emptyStateSubtitle": {
+        "message": "Any files you upload will show up here. DE"
+    },
+    "emptyStateIllustration": {
+        "message": "Empty state illustration DE"
+    },
+    "loading": {
+        "message": "Loading DE"
+    },
+    "loadingDefault": {
+        "message": "Loading... DE"
+    },
+    "loadingDocuments": {
+        "message": "Loading documents... DE"
+    },
+    "errorOccurred": {
+        "message": "An Error Occurred DE"
+    },
+    "errorDefault": {
+        "message": "Something went wrong. Please try again. DE"
+    },
+    "error": {
+        "message": "Error DE"
+    },
+    "fileListTitle": {
+        "message": "Documents DE"
+    },
+    "fileListSubtitle": {
+        "message": "Click on a file to open it in ONLYOFFICE DE"
+    },
+    "noDocumentsFound": {
+        "message": "No Office documents found DE"
+    },
+    "fileIcon": {
+        "message": "File icon DE"
+    },
+    "editOnlyoffice": {
+        "message": "Edit in ONLYOFFICE DE"
+    },
+    "viewOnlyoffice": {
+        "message": "View in ONLYOFFICE DE"
+    },
+    "download": {
+        "message": "Download DE"
+    },
+    "openFile": {
+        "message": "Open file DE"
+    },
+    "downloadFile": {
+        "message": "Download file DE"
+    },
+    "navigationFailed": {
+        "message": "Navigation Failed DE"
+    },
+    "cannotOpenFile": {
+        "message": "Cannot Open File DE"
+    },
+    "downloadFailed": {
+        "message": "Download Failed DE"
+    },
+    "initializationFailed": {
+        "message": "Initialization Failed DE"
+    },
+    "noFile": {
+        "message": "No file to display DE"
+    },
+    "openingFile": {
+        "message": "Opening __%FILE%__... DE"
+    },
+    "routeNotFound": {
+        "message": "Route not found: __%ROUTE%__ DE"
+    },
+    "routeRenderNull": {
+        "message": "Route \"__%ROUTE%__\" render returned null DE"
+    },
+    "templateRenderFailed": {
+        "message": "Failed to render template: __%TEMPLATE%__ DE"
+    }
+}

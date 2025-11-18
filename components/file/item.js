@@ -42,7 +42,7 @@ export const FileComponents = {
         const iconDiv = this._createElement('div', 'file-item__icon');
         const img = this._createElement('img', '', {
             src: this._getFileIcon(file),
-            alt: 'File icon'
+            alt: messenger.i18n.getMessage('fileIcon')
         });
         iconDiv.appendChild(img);
         return iconDiv;
@@ -82,15 +82,19 @@ export const FileComponents = {
 
     _createFileActions(file, isEditable) {
         const actionsDiv = this._createElement('div', 'file-item__actions');
+        const openLabel = isEditable 
+            ? messenger.i18n.getMessage('editOnlyoffice')
+            : messenger.i18n.getMessage('viewOnlyoffice');
+        
         actionsDiv.appendChild(this._createActionButton(
             isEditable ? 'images/pencil.svg' : 'images/eye.svg',
-            isEditable ? 'Edit in ONLYOFFICE' : 'View in ONLYOFFICE',
+            openLabel,
             (e) => this._handleOpenClick(e, file, actionsDiv)
         ));
 
         actionsDiv.appendChild(this._createActionButton(
             'images/download.svg',
-            'Download',
+            messenger.i18n.getMessage('download'),
             (e) => this._handleDownloadClick(e, file, actionsDiv)
         ));
 

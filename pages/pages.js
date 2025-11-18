@@ -14,8 +14,19 @@ export class LoadingPage extends PageComponent {
 
     async init(data) {
         const textElement = this.querySelector('.loader__text');
-        if (textElement && data?.message)
-            textElement.textContent = data.message;
+        if (textElement) {
+            if (data?.message) {
+                textElement.textContent = data.message;
+            } else {
+                const { localizeDocument } = await import('../common/i18n.js');
+                localizeDocument();
+            }
+        }
+    }
+
+    async render(data) {
+        await super.render(data);
+        return this.element;
     }
 }
 
@@ -24,16 +35,15 @@ export class EmptyPage extends PageComponent {
         super('template-empty-state');
     }
 
+    async init(data) {
+        const { localizeDocument } = await import('../common/i18n.js');
+        localizeDocument();
+    }
+
     async render(data) {
         await super.render(data);
-        const titleElement = this.querySelector('.empty-state__title');
-        const subtitleElement = this.querySelector('.empty-state__subtitle');
         const iconImg = this.querySelector('.empty-state__icon-img');
         
-        if (titleElement)
-            titleElement.textContent = data?.title || 'No docs here yet';
-        if (subtitleElement)
-            subtitleElement.textContent = data?.subtitle || 'Any files you upload will show up here.';
         if (iconImg)
             iconImg.src = typeof browser !== 'undefined' 
                 ? browser.runtime.getURL('images/nofiles.svg')
@@ -70,9 +80,9 @@ export class ErrorPage extends PageComponent {
         const messageElement = this.querySelector('.error__message');
         
         if (titleElement)
-            titleElement.textContent = data?.title || 'An Error Occurred';
+            titleElement.textContent = data?.title || messenger.i18n.getMessage('errorOccurred');
         if (messageElement)
-            messageElement.textContent = data?.message || 'Something went wrong. Please try again.';
+            messageElement.textContent = data?.message || messenger.i18n.getMessage('errorDefault');
 
         return this.element;
     }
@@ -129,7 +139,9 @@ export class ViewerPage extends PageComponent {
         this.element.style.width = '100%';
         this.element.style.height = '100%';
         
-        const loaderTemplate = LoaderComponent.createTemplate(`Opening ${data?.file?.name || 'file'}...`);
+        const fileName = data?.file?.name || 'file';
+        const loadingMessage = messenger.i18n.getMessage('openingFile').replace('__%FILE%__', fileName);
+        const loaderTemplate = LoaderComponent.createTemplate(loadingMessage);
         loaderTemplate.style.animation = 'fadeIn 0.3s ease-in';
         this.element.appendChild(loaderTemplate);
         
@@ -140,7 +152,7 @@ export class ViewerPage extends PageComponent {
         const file = data?.file;
         if (!file) {
             if (this.element)
-                this.element.textContent = 'No file to display';
+                this.element.textContent = messenger.i18n.getMessage('noFile');
             return;
         }
 
@@ -156,7 +168,7 @@ export class ViewerPage extends PageComponent {
             await DocumentEditor.init(base64Data, file.name, extension, docType);
         } catch (error) {
             if (this.element)
-                this.element.textContent = `Error: ${error.message}`;
+                this.element.textContent = `${messenger.i18n.getMessage('error')}: ${error.message}`;
             throw error;
         }
     }

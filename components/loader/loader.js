@@ -31,7 +31,7 @@ export const LoaderComponent = {
     _createSpinner() {
         return this._createElement('img', 'loader-container__spinner', {
             src: this._getBrowserURL('images/loader.svg'),
-            alt: 'Loading'
+            alt: messenger.i18n.getMessage('loading')
         });
     },
 
@@ -52,9 +52,10 @@ export const LoaderComponent = {
         this.injectStyles();
     },
 
-    createTemplate(message = 'Loading...') {
+    createTemplate(message) {
+        const defaultMessage = messenger.i18n.getMessage('loadingDefault');
         const container = this._createContainer();
-        container.appendChild(this._createLoaderBox(message));
+        container.appendChild(this._createLoaderBox(message || defaultMessage));
         return container;
     },
 
@@ -74,7 +75,7 @@ export const LoaderComponent = {
         document.head.appendChild(link);
     },
 
-    show(message = 'Loading...') {
+    show(message) {
         this.injectStyles();
         
         const loader = this.createTemplate(message);

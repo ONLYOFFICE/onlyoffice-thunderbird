@@ -1,11 +1,86 @@
 {
-    "extensionDescription": {
-        "message": "Allows editing of the HTML source code of the currently composed message"
-    },    
-    "sourceHTML": {
-        "message": "Source (HTML)"
-    },
-    "openInOnlyoffice": {
+    "openEditor": {
         "message": "Open in ONLYOFFICE"
+    },
+    "emptyStateTitle": {
+        "message": "No docs here yet"
+    },
+    "emptyStateSubtitle": {
+        "message": "Any files you upload will show up here."
+    },
+    "emptyStateIllustration": {
+        "message": "Empty state illustration"
+    },
+    "loading": {
+        "message": "Loading"
+    },
+    "loadingDefault": {
+        "message": "Loading..."
+    },
+    "loadingDocuments": {
+        "message": "Loading documents..."
+    },
+    "errorOccurred": {
+        "message": "An Error Occurred"
+    },
+    "errorDefault": {
+        "message": "Something went wrong. Please try again."
+    },
+    "error": {
+        "message": "Error"
+    },
+    "fileListTitle": {
+        "message": "Documents"
+    },
+    "fileListSubtitle": {
+        "message": "Click on a file to open it in ONLYOFFICE"
+    },
+    "noDocumentsFound": {
+        "message": "No Office documents found"
+    },
+    "fileIcon": {
+        "message": "File icon"
+    },
+    "editOnlyoffice": {
+        "message": "Edit in ONLYOFFICE"
+    },
+    "viewOnlyoffice": {
+        "message": "View in ONLYOFFICE"
+    },
+    "download": {
+        "message": "Download"
+    },
+    "openFile": {
+        "message": "Open file"
+    },
+    "downloadFile": {
+        "message": "Download file"
+    },
+    "navigationFailed": {
+        "message": "Navigation Failed"
+    },
+    "cannotOpenFile": {
+        "message": "Cannot Open File"
+    },
+    "downloadFailed": {
+        "message": "Download Failed"
+    },
+    "initializationFailed": {
+        "message": "Initialization Failed"
+    },
+    "noFile": {
+        "message": "No file to display"
+    },
+    "openingFile": {
+        "message": "Opening __%FILE%__..."
+    },
+    "routeNotFound": {
+        "message": "Route not found: __%ROUTE%__"
+    },
+    "routeRenderNull": {
+        "message": "Route \"__%ROUTE%__\" render returned null"
+    },
+    "templateRenderFailed": {
+        "message": "Failed to render template: __%TEMPLATE%__"
     }
 }

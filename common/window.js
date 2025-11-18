@@ -70,8 +70,8 @@ export const WindowManager = {
 
     async setupMenus() {
         browser.menus.create({
-            id: "openInOnlyoffice",
-            title: "Open in ONLYOFFICE",
+            id: "openEditor",
+            title: messenger.i18n.getMessage("openEditor"),
             contexts: ["message_list"],
             onclick: (info, tab) => this.openMessageViewer(tab)
         });

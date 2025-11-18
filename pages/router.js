@@ -19,13 +19,19 @@ export class Router {
         
         try {
             const route = this.routes.get(pageName);
-            if (!route) throw new Error(`Route not found: ${pageName}`); // TODO: Use localisation message
+            if (!route) {
+                const errorMsg = messenger.i18n.getMessage('routeNotFound').replace('__%ROUTE%__', pageName);
+                throw new Error(errorMsg);
+            }
 
             if (this.currentPage?.cleanup) await this.currentPage.cleanup();
 
             this.container.innerHTML = '';
             const content = await route.render(data);
-            if (!content) throw new Error(`Route "${pageName}" render returned null`); // TODO: Use localisation message
+            if (!content) {
+                const errorMsg = messenger.i18n.getMessage('routeRenderNull').replace('__%ROUTE%__', pageName);
+                throw new Error(errorMsg);
+            }
             
             this.container.appendChild(content);
             this.currentPage = route;
@@ -34,12 +40,15 @@ export class Router {
             if (pageName !== 'error') {
                 this.isNavigating = false;
                 await this.navigate('error', { 
-                    title: 'Navigation Failed', // TODO: Use localisation message
+                    title: messenger.i18n.getMessage('navigationFailed'),
                     message: error.message
                 });
             } else {
                 this.container.innerHTML = '';
-                this.container.appendChild(ErrorComponent.createTemplate('Error', error.message));
+                this.container.appendChild(ErrorComponent.createTemplate(
+                    messenger.i18n.getMessage('error'),
+                    error.message
+                ));
             }
         } finally {
             this.isNavigating = false;
@@ -76,7 +85,10 @@ export class TemplateRenderer {
 
     static render(templateId, data = {}) {
         const template = this.templates.get(templateId);
-        if (!template) throw new Error(`Template not found: ${templateId}`); // TODO: Use localisation message
+        if (!template) {
+            const errorMsg = messenger.i18n.getMessage('templateRenderFailed').replace('__%TEMPLATE%__', templateId);
+            throw new Error(errorMsg);
+        }
 
         const container = document.createElement('div');
         container.appendChild(template.content.cloneNode(true));
@@ -101,8 +113,10 @@ export class PageComponent {
 
     async render(data) {
         this.element = TemplateRenderer.render(this.templateId, data);
-        if (!this.element)
-            throw new Error(`Failed to render template: ${this.templateId}`); // TODO: Use localisation message
+        if (!this.element) {
+            const errorMsg = messenger.i18n.getMessage('templateRenderFailed').replace('__%TEMPLATE%__', this.templateId);
+            throw new Error(errorMsg);
+        }
 
         return this.element;
     }
