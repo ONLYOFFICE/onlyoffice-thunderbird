@@ -1,0 +1,149 @@
+{
+    "openEditor": {
+        "message": "Open in ONLYOFFICE RU"
+    },
+    "emptyStateTitle": {
+        "message": "No docs here yet RU"
+    },
+    "emptyStateSubtitle": {
+        "message": "Any files you upload will show up here. RU"
+    },
+    "emptyStateIllustration": {
+        "message": "Empty state illustration RU"
+    },
+    "loading": {
+        "message": "Loading RU"
+    },
+    "loadingDefault": {
+        "message": "Loading... RU"
+    },
+    "loadingDocuments": {
+        "message": "Loading documents... RU"
+    },
+    "errorOccurred": {
+        "message": "An Error Occurred RU"
+    },
+    "errorDefault": {
+        "message": "Something went wrong. Please try again. RU"
+    },
+    "error": {
+        "message": "Error RU"
+    },
+    "fileListTitle": {
+        "message": "Documents RU"
+    },
+    "fileListSubtitle": {
+        "message": "Click on a file to open it in ONLYOFFICE RU"
+    },
+    "noDocumentsFound": {
+        "message": "No Office documents found RU"
+    },
+    "fileIcon": {
+        "message": "File icon RU"
+    },
+    "editOnlyoffice": {
+        "message": "Edit in ONLYOFFICE RU"
+    },
+    "viewOnlyoffice": {
+        "message": "View in ONLYOFFICE RU"
+    },
+    "download": {
+        "message": "Download RU"
+    },
+    "openFile": {
+        "message": "Open file RU"
+    },
+    "downloadFile": {
+        "message": "Download file RU"
+    },
+    "navigationFailed": {
+        "message": "Navigation Failed RU"
+    },
+    "cannotOpenFile": {
+        "message": "Cannot Open File RU"
+    },
+    "downloadFailed": {
+        "message": "Download Failed RU"
+    },
+    "initializationFailed": {
+        "message": "Initialization Failed RU"
+    },
+    "noFile": {
+        "message": "No file to display RU"
+    },
+    "openingFile": {
+        "message": "Opening __%FILE%__... RU"
+    },
+    "routeNotFound": {
+        "message": "Route not found: __%ROUTE%__ RU"
+    },
+    "routeRenderNull": {
+        "message": "Route \"__%ROUTE%__\" render returned null RU"
+    },
+    "templateRenderFailed": {
+        "message": "Failed to render template: __%TEMPLATE%__ RU"
+    },
+    "errorInvalidMessageId": {
+        "message": "Invalid message ID RU"
+    },
+    "errorInvalidComposeTab": {
+        "message": "Invalid compose tab: __%TAB_ID%__ RU"
+    },
+    "errorFailedGetAttachmentData": {
+        "message": "Failed to get attachment data RU"
+    },
+    "errorFailedGetAttachmentFile": {
+        "message": "Failed to get attachment file: __%ERROR%__ RU"
+    },
+    "errorCannotGetAttachmentData": {
+        "message": "Cannot get attachment data: no valid source or message ID RU"
+    },
+    "errorNoAttachmentsFound": {
+        "message": "No attachments found RU"
+    },
+    "errorNoValidId": {
+        "message": "No valid message or compose ID RU"
+    },
+    "errorNoMessageSelected": {
+        "message": "No message selected RU"
+    },
+    "errorMessageNotFound": {
+        "message": "Message not found RU"
+    },
+    "errorNoComposeTabId": {
+        "message": "No compose tab ID provided RU"
+    },
+    "errorAttachmentNotFound": {
+        "message": "Attachment __%ATTACHMENT_ID%__ not found RU"
+    },
+    "errorDocServerNotConfigured": {
+        "message": "Document server URL is not configured RU"
+    },
+    "errorAttachmentNotFoundInCompose": {
+        "message": "Attachment not found in compose window RU"
+    },
+    "errorFailedSaveFile": {
+        "message": "Failed to save file RU"
+    },
+    "errorDocApiNotLoaded": {
+        "message": "ONLYOFFICE Document API not loaded RU"
+    },
+    "errorFailedLoadDocApi": {
+        "message": "Failed to load ONLYOFFICE Document API from __%URL%__ RU"
+    },
+    "errorServerUrlRequired": {
+        "message": "Server URL is required RU"
+    },
+    "errorServerUrlInvalidProtocol": {
+        "message": "Server URL must use HTTPS protocol RU"
+    },
+    "errorInvalidServerUrl": {
+        "message": "Invalid server URL format RU"
+    },
+    "errorFailedLoadConfig": {
+        "message": "Failed to load config: __%STATUS%__ RU"
+    },
+    "errorFailedLoadFormats": {
+        "message": "Failed to load formats: __%STATUS%__ RU"
+    }
+}

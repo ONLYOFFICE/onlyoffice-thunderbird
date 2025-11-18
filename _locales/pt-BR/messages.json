@@ -1,0 +1,149 @@
+{
+    "openEditor": {
+        "message": "Open in ONLYOFFICE PT-BR"
+    },
+    "emptyStateTitle": {
+        "message": "No docs here yet PT-BR"
+    },
+    "emptyStateSubtitle": {
+        "message": "Any files you upload will show up here. PT-BR"
+    },
+    "emptyStateIllustration": {
+        "message": "Empty state illustration PT-BR"
+    },
+    "loading": {
+        "message": "Loading PT-BR"
+    },
+    "loadingDefault": {
+        "message": "Loading... PT-BR"
+    },
+    "loadingDocuments": {
+        "message": "Loading documents... PT-BR"
+    },
+    "errorOccurred": {
+        "message": "An Error Occurred PT-BR"
+    },
+    "errorDefault": {
+        "message": "Something went wrong. Please try again. PT-BR"
+    },
+    "error": {
+        "message": "Error PT-BR"
+    },
+    "fileListTitle": {
+        "message": "Documents PT-BR"
+    },
+    "fileListSubtitle": {
+        "message": "Click on a file to open it in ONLYOFFICE PT-BR"
+    },
+    "noDocumentsFound": {
+        "message": "No Office documents found PT-BR"
+    },
+    "fileIcon": {
+        "message": "File icon PT-BR"
+    },
+    "editOnlyoffice": {
+        "message": "Edit in ONLYOFFICE PT-BR"
+    },
+    "viewOnlyoffice": {
+        "message": "View in ONLYOFFICE PT-BR"
+    },
+    "download": {
+        "message": "Download PT-BR"
+    },
+    "openFile": {
+        "message": "Open file PT-BR"
+    },
+    "downloadFile": {
+        "message": "Download file PT-BR"
+    },
+    "navigationFailed": {
+        "message": "Navigation Failed PT-BR"
+    },
+    "cannotOpenFile": {
+        "message": "Cannot Open File PT-BR"
+    },
+    "downloadFailed": {
+        "message": "Download Failed PT-BR"
+    },
+    "initializationFailed": {
+        "message": "Initialization Failed PT-BR"
+    },
+    "noFile": {
+        "message": "No file to display PT-BR"
+    },
+    "openingFile": {
+        "message": "Opening __%FILE%__... PT-BR"
+    },
+    "routeNotFound": {
+        "message": "Route not found: __%ROUTE%__ PT-BR"
+    },
+    "routeRenderNull": {
+        "message": "Route \"__%ROUTE%__\" render returned null PT-BR"
+    },
+    "templateRenderFailed": {
+        "message": "Failed to render template: __%TEMPLATE%__ PT-BR"
+    },
+    "errorInvalidMessageId": {
+        "message": "Invalid message ID PT-BR"
+    },
+    "errorInvalidComposeTab": {
+        "message": "Invalid compose tab: __%TAB_ID%__ PT-BR"
+    },
+    "errorFailedGetAttachmentData": {
+        "message": "Failed to get attachment data PT-BR"
+    },
+    "errorFailedGetAttachmentFile": {
+        "message": "Failed to get attachment file: __%ERROR%__ PT-BR"
+    },
+    "errorCannotGetAttachmentData": {
+        "message": "Cannot get attachment data: no valid source or message ID PT-BR"
+    },
+    "errorNoAttachmentsFound": {
+        "message": "No attachments found PT-BR"
+    },
+    "errorNoValidId": {
+        "message": "No valid message or compose ID PT-BR"
+    },
+    "errorNoMessageSelected": {
+        "message": "No message selected PT-BR"
+    },
+    "errorMessageNotFound": {
+        "message": "Message not found PT-BR"
+    },
+    "errorNoComposeTabId": {
+        "message": "No compose tab ID provided PT-BR"
+    },
+    "errorAttachmentNotFound": {
+        "message": "Attachment __%ATTACHMENT_ID%__ not found PT-BR"
+    },
+    "errorDocServerNotConfigured": {
+        "message": "Document server URL is not configured PT-BR"
+    },
+    "errorAttachmentNotFoundInCompose": {
+        "message": "Attachment not found in compose window PT-BR"
+    },
+    "errorFailedSaveFile": {
+        "message": "Failed to save file PT-BR"
+    },
+    "errorDocApiNotLoaded": {
+        "message": "ONLYOFFICE Document API not loaded PT-BR"
+    },
+    "errorFailedLoadDocApi": {
+        "message": "Failed to load ONLYOFFICE Document API from __%URL%__ PT-BR"
+    },
+    "errorServerUrlRequired": {
+        "message": "Server URL is required PT-BR"
+    },
+    "errorServerUrlInvalidProtocol": {
+        "message": "Server URL must use HTTPS protocol PT-BR"
+    },
+    "errorInvalidServerUrl": {
+        "message": "Invalid server URL format PT-BR"
+    },
+    "errorFailedLoadConfig": {
+        "message": "Failed to load config: __%STATUS%__ PT-BR"
+    },
+    "errorFailedLoadFormats": {
+        "message": "Failed to load formats: __%STATUS%__ PT-BR"
+    }
+}

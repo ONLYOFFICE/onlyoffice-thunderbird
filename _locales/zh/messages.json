@@ -1,0 +1,149 @@
+{
+    "openEditor": {
+        "message": "Open in ONLYOFFICE ZH"
+    },
+    "emptyStateTitle": {
+        "message": "No docs here yet ZH"
+    },
+    "emptyStateSubtitle": {
+        "message": "Any files you upload will show up here. ZH"
+    },
+    "emptyStateIllustration": {
+        "message": "Empty state illustration ZH"
+    },
+    "loading": {
+        "message": "Loading ZH"
+    },
+    "loadingDefault": {
+        "message": "Loading... ZH"
+    },
+    "loadingDocuments": {
+        "message": "Loading documents... ZH"
+    },
+    "errorOccurred": {
+        "message": "An Error Occurred ZH"
+    },
+    "errorDefault": {
+        "message": "Something went wrong. Please try again. ZH"
+    },
+    "error": {
+        "message": "Error ZH"
+    },
+    "fileListTitle": {
+        "message": "Documents ZH"
+    },
+    "fileListSubtitle": {
+        "message": "Click on a file to open it in ONLYOFFICE ZH"
+    },
+    "noDocumentsFound": {
+        "message": "No Office documents found ZH"
+    },
+    "fileIcon": {
+        "message": "File icon ZH"
+    },
+    "editOnlyoffice": {
+        "message": "Edit in ONLYOFFICE ZH"
+    },
+    "viewOnlyoffice": {
+        "message": "View in ONLYOFFICE ZH"
+    },
+    "download": {
+        "message": "Download ZH"
+    },
+    "openFile": {
+        "message": "Open file ZH"
+    },
+    "downloadFile": {
+        "message": "Download file ZH"
+    },
+    "navigationFailed": {
+        "message": "Navigation Failed ZH"
+    },
+    "cannotOpenFile": {
+        "message": "Cannot Open File ZH"
+    },
+    "downloadFailed": {
+        "message": "Download Failed ZH"
+    },
+    "initializationFailed": {
+        "message": "Initialization Failed ZH"
+    },
+    "noFile": {
+        "message": "No file to display ZH"
+    },
+    "openingFile": {
+        "message": "Opening __%FILE%__... ZH"
+    },
+    "routeNotFound": {
+        "message": "Route not found: __%ROUTE%__ ZH"
+    },
+    "routeRenderNull": {
+        "message": "Route \"__%ROUTE%__\" render returned null ZH"
+    },
+    "templateRenderFailed": {
+        "message": "Failed to render template: __%TEMPLATE%__ ZH"
+    },
+    "errorInvalidMessageId": {
+        "message": "Invalid message ID ZH"
+    },
+    "errorInvalidComposeTab": {
+        "message": "Invalid compose tab: __%TAB_ID%__ ZH"
+    },
+    "errorFailedGetAttachmentData": {
+        "message": "Failed to get attachment data ZH"
+    },
+    "errorFailedGetAttachmentFile": {
+        "message": "Failed to get attachment file: __%ERROR%__ ZH"
+    },
+    "errorCannotGetAttachmentData": {
+        "message": "Cannot get attachment data: no valid source or message ID ZH"
+    },
+    "errorNoAttachmentsFound": {
+        "message": "No attachments found ZH"
+    },
+    "errorNoValidId": {
+        "message": "No valid message or compose ID ZH"
+    },
+    "errorNoMessageSelected": {
+        "message": "No message selected ZH"
+    },
+    "errorMessageNotFound": {
+        "message": "Message not found ZH"
+    },
+    "errorNoComposeTabId": {
+        "message": "No compose tab ID provided ZH"
+    },
+    "errorAttachmentNotFound": {
+        "message": "Attachment __%ATTACHMENT_ID%__ not found ZH"
+    },
+    "errorDocServerNotConfigured": {
+        "message": "Document server URL is not configured ZH"
+    },
+    "errorAttachmentNotFoundInCompose": {
+        "message": "Attachment not found in compose window ZH"
+    },
+    "errorFailedSaveFile": {
+        "message": "Failed to save file ZH"
+    },
+    "errorDocApiNotLoaded": {
+        "message": "ONLYOFFICE Document API not loaded ZH"
+    },
+    "errorFailedLoadDocApi": {
+        "message": "Failed to load ONLYOFFICE Document API from __%URL%__ ZH"
+    },
+    "errorServerUrlRequired": {
+        "message": "Server URL is required ZH"
+    },
+    "errorServerUrlInvalidProtocol": {
+        "message": "Server URL must use HTTPS protocol ZH"
+    },
+    "errorInvalidServerUrl": {
+        "message": "Invalid server URL format ZH"
+    },
+    "errorFailedLoadConfig": {
+        "message": "Failed to load config: __%STATUS%__ ZH"
+    },
+    "errorFailedLoadFormats": {
+        "message": "Failed to load formats: __%STATUS%__ ZH"
+    }
+}
