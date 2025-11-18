@@ -27,13 +27,21 @@ export const JwtManager = {
         return signature;
     },
 
-    generate: async function(payload, secret) {
+    generate: async function(payload, secret, options = {}) {
         if (!secret) return null;
     
         const header = { alg: 'HS256', typ: 'JWT' };
+        
+        const now = Math.floor(Date.now() / 1000);
+        const expiresIn = options.expiresIn || 600;
+        const fullPayload = {
+            ...payload,
+            iat: now,
+            exp: now + expiresIn,
+        };
     
         const headerEncoded = this._encode(this._stringToBytes(JSON.stringify(header)));
-        const payloadEncoded = this._encode(this._stringToBytes(JSON.stringify(payload)));
+        const payloadEncoded = this._encode(this._stringToBytes(JSON.stringify(fullPayload)));
         
         const message = `${headerEncoded}.${payloadEncoded}`;
         const signatureBuffer = await this._sign(message, secret);
