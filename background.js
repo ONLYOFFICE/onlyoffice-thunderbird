@@ -4,7 +4,7 @@ import { MessageHandlers } from './common/handlers.js';
 import { ApplicationConfig } from './common/config.js';
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    logger.debug("Message received in background script:", request);
+    logger.debug('Message received in background script:', request);
 
     const handler = MessageHandlers[request.action];
     if (handler) {
@@ -12,18 +12,18 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         return true;
     }
 
-    logger.debug("Unknown action:", request.action);
-    sendResponse({ error: "Unknown action" });
+    logger.debug('Unknown action:', request.action);
+    sendResponse({ error: 'Unknown action' });
     return false;
 });
 
 async function init() {
-    logger.debug("Initializing extension...");
+    logger.debug('Initializing extension...');
     try {
         await ApplicationConfig.init();
-        logger.debug("Configuration loaded successfully with", ApplicationConfig.getSupportedExtensions().length, "formats");
+        logger.debug('Configuration loaded successfully with', ApplicationConfig.getSupportedExtensions().length, 'formats');
     } catch (error) {
-        logger.error("Error initializing configuration:", error);
+        logger.error('Error initializing configuration:', error);
     }
     await WindowManager.setupMenus();
     await WindowManager.setupActions();

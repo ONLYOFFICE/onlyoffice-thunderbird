@@ -56,17 +56,17 @@
 const i18nAttrRegex = /^data-i18n-(?<target>.*)/;
 
 let _extension = null;
-let _keyPrefix = "__MSG_";
+let _keyPrefix = '__MSG_';
 
 const getTranslationFromKey = (key) => {
     let rv = _extension
         ? _extension.localeData.localizeMessage(key)
         : messenger.i18n.getMessage(key);
     return rv || `__MSG_${key}__`;
-}
+};
 
 const getTranslationFromEscapedKey = (placeholder) => {
-    const prefixRegex = new RegExp(_keyPrefix + "(.+?)__", "g");
+    const prefixRegex = new RegExp(_keyPrefix + '(.+?)__', 'g');
     return placeholder.replace(prefixRegex, (escapedKey) => {
         const key = escapedKey.slice(_keyPrefix.length, -2);
         return getTranslationFromKey(key);
@@ -109,12 +109,12 @@ const updateSubtree = (sourceDocument, node) => {
             const { ownerElement } = attr;
             let { target } = i18nAttrRegex.exec(attr.name).groups;
 
-            if (target == "content") {
-                console.log("Updating content", ownerElement, value)
+            if (target == 'content') {
+                console.log('Updating content', ownerElement, value);
                 ownerElement.textContent = value;
             } else {
                 // Assume it is an attribute.
-                console.log("Updating attribute", target, ownerElement, value)
+                console.log('Updating attribute', target, ownerElement, value);
                 ownerElement.setAttribute(target, value);
             }
         }

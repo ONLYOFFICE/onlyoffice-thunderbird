@@ -34,7 +34,7 @@ export const ThunderbirdAPI = {
             || [];
 
         if (!attachments.length && message?.parts) {
-            logger.debug("Looking for attachments in MIME parts");
+            logger.debug('Looking for attachments in MIME parts');
             return await FileOperations.findAttachments(message.parts);
         }
 

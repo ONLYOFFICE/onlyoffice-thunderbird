@@ -56,7 +56,7 @@ export const DocumentEditor = {
     },
 
     onAppReady(data) {
-        if (this.config.document.url === "_data_")
+        if (this.config.document.url === '_data_')
             this.instance.openDocument(FileOperations.convertBase64(data));
     },
 
@@ -97,7 +97,7 @@ export const DocumentEditor = {
                 ? await this.saveFile(blob, name)
                 : this.downloadFile(blob, name);
         } catch (error) {
-            console.error("Error saving document:", error);
+            console.error('Error saving document:', error);
         }
     },
 
@@ -111,7 +111,7 @@ export const DocumentEditor = {
             document: {
                 fileType: extension,
                 title: name,
-                url: "_data_",
+                url: '_data_',
                 permissions: permissions
             },
             documentType: type,
@@ -143,14 +143,14 @@ export const DocumentEditor = {
                 }
             };
             
-            logger.debug("JWT Payload:", JSON.stringify(payload));
+            logger.debug('JWT Payload:', JSON.stringify(payload));
             
             const token = await JwtManager.generate(payload, ApplicationConfig.docServerSecret);
             if (token) {
-                logger.debug("Generated JWT Token:", token);
+                logger.debug('Generated JWT Token:', token);
                 config.token = token;
             } else {
-                logger.error("Failed to generate JWT token");
+                logger.error('Failed to generate JWT token');
             }
         }
 

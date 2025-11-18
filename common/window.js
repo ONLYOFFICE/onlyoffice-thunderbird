@@ -25,7 +25,7 @@ export const WindowManager = {
         const defaults = ApplicationConfig.getWindowDefaults();
         const window = await browser.windows.create({
             url,
-            type: "popup",
+            type: 'popup',
             width: options.width || defaults.width,
             height: options.height || defaults.height,
             ...options
@@ -44,7 +44,7 @@ export const WindowManager = {
                 `pages/viewer.html?composeTabId=${tab.id}`
             );
         } catch (error) {
-            logger.error("Error opening compose viewer:", error);
+            logger.error('Error opening compose viewer:', error);
         }
     },
 
@@ -60,15 +60,15 @@ export const WindowManager = {
                 `pages/viewer.html?messageId=${message.id}`
             );
         } catch (error) {
-            logger.error("Error opening viewer:", error);
+            logger.error('Error opening viewer:', error);
         }
     },
 
     async setupMenus() {
         browser.menus.create({
-            id: "openEditor",
-            title: messenger.i18n.getMessage("openEditor"),
-            contexts: ["message_list"],
+            id: 'openEditor',
+            title: messenger.i18n.getMessage('openEditor'),
+            contexts: ['message_list'],
             onclick: (info, tab) => this.openMessageViewer(tab)
         });
     },
@@ -79,7 +79,7 @@ export const WindowManager = {
                 this.openMessageViewer(tab)
             );
         } else {
-            logger.warn("messageDisplayAction not available");
+            logger.warn('messageDisplayAction not available');
         }
 
         if (browser.composeAction) {
@@ -87,7 +87,7 @@ export const WindowManager = {
                 this.openComposeViewer(tab)
             );
         } else {
-            logger.warn("composeAction not available");
+            logger.warn('composeAction not available');
         }
     }
 };
