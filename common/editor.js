@@ -1,3 +1,4 @@
+import { JwtManager } from './jwt.js';
 import { ThunderbirdAPI } from './api.js';
 import { FileOperations } from './file.js';
 import { ApplicationConfig } from './config.js';
@@ -104,7 +105,7 @@ export const DocumentEditor = {
         const mode = permissions.edit ? 'edit' : 'view';
         const userInfo = await this._getUserInfo();
 
-        return {
+        const config = {
             documentData: data,
             document: {
                 fileType: extension,
@@ -129,6 +130,30 @@ export const DocumentEditor = {
                 onSaveDocument: (event) => this.onSaveDocument(event, name)
             }
         };
+
+        if (ApplicationConfig.docServerSecret) {
+            const payload = {
+                document: config.document,
+                documentType: config.documentType,
+                editorConfig: {
+                    mode: config.editorConfig.mode,
+                    user: config.editorConfig.user,
+                    customization: config.editorConfig.customization
+                }
+            };
+            
+            logger.debug("JWT Payload:", JSON.stringify(payload));
+            
+            const token = await JwtManager.generate(payload, ApplicationConfig.docServerSecret);
+            if (token) {
+                logger.debug("Generated JWT Token:", token);
+                config.token = token;
+            } else {
+                logger.error("Failed to generate JWT token");
+            }
+        }
+
+        return config;
     },
 
     async init(data, name, extension, type) {

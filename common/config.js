@@ -1,5 +1,6 @@
 export const ApplicationConfig = {
     docServerUrl: '',
+    docServerSecret: '',
     formatsPath: '',
     ui: {},
     limits: {},
@@ -34,6 +35,7 @@ export const ApplicationConfig = {
         });
 
         this.docServerUrl = this.sanitizeUrl(configData.server.url);
+        this.docServerSecret = configData.server.secret || '';
         this.formatsPath = configData.vendor.formats;
         this.ui = configData.ui || {};
         this.limits = configData.limits || {};

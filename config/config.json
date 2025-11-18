@@ -1,6 +1,7 @@
 {
   "server": {
-    "url": "https://<document-server-url>"
+    "url": "https://<document-server-url>",
+    "secret": "<document-server-secret>"
   },
   "ui": {
     "window": {
