@@ -91,6 +91,16 @@ build: clean check-tools
 	@cp manifest.json $(BUILD_DIR)/
 	@cp $(SRC_DIR)/*.js $(BUILD_DIR)/
 	
+	@echo "Applying environment variable overrides to config..."
+ifdef SERVER_URL
+	@echo "Setting server URL to: $(SERVER_URL)"
+	@sed -i.bak 's|"url": "[^"]*"|"url": "$(SERVER_URL)"|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+endif
+ifdef SERVER_SECRET
+	@echo "Setting server secret"
+	@sed -i.bak 's|"secret": "[^"]*"|"secret": "$(SERVER_SECRET)"|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+endif
+	
 	@echo "Minifying JavaScript files..."
 	@find $(BUILD_DIR) -name "*.js" -type f -exec $(TERSER) -o {} {} \;
 	
