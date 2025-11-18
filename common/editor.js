@@ -1,3 +1,4 @@
+import { logger } from './logger.js';
 import { JwtManager } from './jwt.js';
 import { ThunderbirdAPI } from './api.js';
 import { FileOperations } from './file.js';
