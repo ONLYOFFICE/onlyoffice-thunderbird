@@ -36,7 +36,7 @@ export const DocumentEditor = {
             if (response?.success && response?.userInfo)
                 return response.userInfo;
         } catch (error) {
-            console.warn('Could not fetch user info from Thunderbird:', error);
+            logger.warn('Could not fetch user info from Thunderbird:', error);
         }
 
         return {};
@@ -92,7 +92,14 @@ export const DocumentEditor = {
 
     async onSaveDocument(event, name) {
         try {
-            const blob = new Blob([event.data]);
+            let blob;
+            if (event.data?.url) {
+                const response = await fetch(event.data.url);
+                blob = await response.blob();
+            } else {
+                blob = new Blob([event.data]);
+            }
+            
             getComposeTabId() 
                 ? await this.saveFile(blob, name)
                 : this.downloadFile(blob, name);
@@ -128,7 +135,8 @@ export const DocumentEditor = {
             },
             events: {
                 onAppReady: () => this.onAppReady(data),
-                onSaveDocument: (event) => this.onSaveDocument(event, name)
+                onSaveDocument: (event) => this.onSaveDocument(event, name),
+                onDownloadAs: (event) => this.onSaveDocument(event, name)
             }
         };
 
