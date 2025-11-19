@@ -64,12 +64,60 @@ export const WindowManager = {
         }
     },
 
+    async openAttachmentViewer(info, tab) {
+        try {
+            const attachments = info.attachments || [];
+            if (!attachments.length) {
+                logger.error('No attachments found');
+                return;
+            }
+
+            const attachment = attachments[0];
+            const filename = attachment.name;
+            if (!ApplicationConfig.isSupportedFile(filename)) {
+                logger.debug('Unsupported file format:', filename);
+                return;
+            }
+
+            let messageId = null;
+            const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+            if (tabs.length > 0) {
+                const activeTab = tabs[0];
+                const displayedMessage = await browser.messageDisplay.getDisplayedMessage(activeTab.id);
+                if (displayedMessage?.id) messageId = displayedMessage.id;
+                if (!messageId) {
+                    const messages = await browser.mailTabs.getSelectedMessages(activeTab.id);
+                    if (messages?.messages?.length > 0) messageId = messages.messages[0].id;
+                }
+            }
+            
+            if (!messageId) {
+                logger.error('No message ID available for attachment');
+                return;
+            }
+
+            await this.open(
+                `${WINDOW_KEYS.MESSAGE}${messageId}_${attachment.partName}`,
+                `pages/viewer.html?messageId=${messageId}&attachmentName=${encodeURIComponent(filename)}`
+            );
+        } catch (error) {
+            logger.error('Error opening attachment viewer:', error);
+        }
+    },
+
     async setupMenus() {
         browser.menus.create({
             id: 'openEditor',
             title: messenger.i18n.getMessage('openEditor'),
             contexts: ['message_list'],
             onclick: (info, tab) => this.openMessageViewer(tab)
+        });
+
+        browser.menus.create({
+            id: 'openAttachment',
+            title: messenger.i18n.getMessage('openEditor'),
+            contexts: ['message_attachments', 'all_message_attachments'],
+            onclick: (info, tab) => this.openAttachmentViewer(info, tab)
         });
     },
 

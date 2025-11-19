@@ -34,8 +34,17 @@ const App = {
             const attachments = (await ThunderbirdAPI.getAttachments())
                 .filter(att => FileOperations.isSupportedFile(att));
             
-            await router.navigate(attachments.length ? 'files' : 'empty', 
-                attachments.length ? { files: attachments } : {});
+            const params = new URLSearchParams(window.location.search);
+            const attachmentName = params.get('attachmentName');
+            if (attachmentName && attachments.length) {
+                const attachment = attachments.find(att => att.name === attachmentName);
+                if (attachment) await router.navigate('viewer', { file: attachment });
+                else await router.navigate(attachments.length ? 'files' : 'empty', 
+                    attachments.length ? { files: attachments } : {});
+            } else {
+                await router.navigate(attachments.length ? 'files' : 'empty', 
+                    attachments.length ? { files: attachments } : {});
+            }
             
             window.addEventListener(EVENTS.FILE_OPEN, async (e) => {
                 try {
