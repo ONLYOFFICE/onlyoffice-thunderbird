@@ -79,6 +79,21 @@ export const WindowManager = {
                 return;
             }
 
+            try {
+                if (tab.id) {
+                    const details = await browser.compose.getComposeDetails(tab.id);
+                    if (details) {
+                        await this.open(
+                            `${WINDOW_KEYS.COMPOSE}${tab.id}_${attachment.id}`,
+                            `pages/viewer.html?composeTabId=${tab.id}&attachmentName=${encodeURIComponent(filename)}`
+                        );
+                        return;
+                    }
+                }
+            } catch (e) {
+                logger.error('Error getting compose details:', e);
+            }
+
             let messageId = null;
             const tabs = await browser.tabs.query({ active: true, currentWindow: true });
             if (tabs.length > 0) {
@@ -116,7 +131,7 @@ export const WindowManager = {
         browser.menus.create({
             id: 'openAttachment',
             title: messenger.i18n.getMessage('openEditor'),
-            contexts: ['message_attachments', 'all_message_attachments'],
+            contexts: ['message_attachments', 'all_message_attachments', 'compose_attachments'],
             onclick: (info, tab) => this.openAttachmentViewer(info, tab)
         });
     },
