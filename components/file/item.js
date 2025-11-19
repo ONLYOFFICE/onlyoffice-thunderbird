@@ -11,6 +11,11 @@ export const FileComponents = {
             : path;
     },
 
+    _getIcon(iconPath) {
+        const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        return isDark ? iconPath.replace('.svg', '_dark.svg') : iconPath;
+    },
+
     _createElement(tag, className, attributes = {}) {
         const el = document.createElement(tag);
         if (className) 
@@ -87,14 +92,15 @@ export const FileComponents = {
             ? (translations.editOnlyoffice || 'Edit in ONLYOFFICE')
             : (translations.viewOnlyoffice || 'View in ONLYOFFICE');
         
+        const openIcon = isEditable ? 'images/pencil.svg' : 'images/eye.svg';
         actionsDiv.appendChild(this._createActionButton(
-            isEditable ? 'images/pencil.svg' : 'images/eye.svg',
+            this._getIcon(openIcon),
             openLabel,
             (e) => this._handleOpenClick(e, file, actionsDiv)
         ));
 
         actionsDiv.appendChild(this._createActionButton(
-            'images/download.svg',
+            this._getIcon('images/download.svg'),
             translations.download || 'Download',
             (e) => this._handleDownloadClick(e, file, actionsDiv)
         ));

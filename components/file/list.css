@@ -11,12 +11,13 @@
 
     border-radius: 8px;
 
-    background: #FFFFFF;
-    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1019607843);
+    background: var(--bg-primary);
+    box-shadow: 0px 4px 10px 0px var(--shadow-color);
     transform: translate(-50%, -50%);
     z-index: 1000;
     
     animation: fadeIn 0.3s ease-in;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .files-container__title {
@@ -42,8 +43,9 @@
     line-height: 20px;
     letter-spacing: 0px;
 
-    color: #333;
-    border-bottom: 1px solid #eee;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .files-container__scrollable-content {
@@ -70,7 +72,8 @@
     font-style: italic;
     text-align: center;
 
-    color: #666;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .files-container__empty-message--visible {
@@ -90,7 +93,8 @@
 
     border-radius: 8px;
 
-    background: #06162629;
+    background: var(--scrollbar-track-bg);
+    transition: background-color 0.2s ease;
 }
 
 .file-item {
@@ -107,12 +111,12 @@
     gap: 8px;
     
     opacity: 1;
-    border-bottom: 1px solid #eee;
-    transition: background-color 0.2s;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s, border-color 0.3s ease;
 }
 
 .file-item:hover {
-    background-color: #f8f9fa;
+    background-color: var(--hover-bg);
 }
 
 .file-item:last-child {
@@ -147,17 +151,20 @@
 
     font-weight: 500;
 
-    color: #333;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .file-item__extension {
-    color: #8C8C8C;
+    color: var(--text-tertiary);
+    transition: color 0.3s ease;
 }
 
 .file-item__meta {
     font-size: 12px;
 
-    color: #666;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .file-item__actions {
@@ -184,7 +191,7 @@
 }
 
 .file-item__action-button:hover:not(:disabled) {
-    background-color: #f0f0f0;
+    background-color: var(--hover-bg-strong);
     opacity: 0.8;
 }
 

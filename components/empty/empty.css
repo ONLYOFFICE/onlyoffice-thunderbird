@@ -1,10 +1,17 @@
 :root {
-    --empty-state__bg-color: #fafbfc;
     --empty-state__text-primary: #1f2937;
     --empty-state__text-secondary: #6b7280;
     --empty-state__icon-opacity: 0.85;
     --empty-state__animation-duration: 0.5s;
     --empty-state__animation-delay: 0.1s;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --empty-state__text-primary: #FFFFFFD8;
+        --empty-state__text-secondary: #A1A1AA;
+        --empty-state__icon-opacity: 0.7;
+    }
 }
 
 .empty-state {
@@ -22,9 +29,10 @@
     padding: 0;
     margin: 0;
 
-    background: linear-gradient(135deg, var(--empty-state__bg-color) 0%, #f3f4f6 100%);
+    background: var(--bg-primary);
     animation: fadeIn var(--empty-state__animation-duration) ease-in-out;
     z-index: 999;
+    transition: background 0.3s ease;
 }
 
 .empty-state__box {

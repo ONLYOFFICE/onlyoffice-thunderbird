@@ -49,7 +49,8 @@
     line-height: 1.2;
     text-align: center;
 
-    color: #333;
+    color: var(--text-primary);
+    transition: color 0.3s ease;
 }
 
 .error__message {
@@ -63,7 +64,9 @@
 
     white-space: pre-wrap;
     word-wrap: break-word;
-    color: #666;
+
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
 }
 
 .error__details {
@@ -78,11 +81,13 @@
     
     user-select: none;
     cursor: pointer;
-    color: #666;
+    
+    color: var(--text-secondary);
+    transition: color 0.3s ease, background-color 0.2s ease;
 }
 
 .error__details-summary:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: var(--hover-bg);
     border-radius: 4px;
 }
 
@@ -93,7 +98,7 @@
     padding: 10px;
 
     overflow: auto;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 
     text-align: left;
@@ -102,8 +107,9 @@
     white-space: pre-wrap;
     word-wrap: break-word;
 
-    color: #333;
-    background: white;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 @keyframes slideIn {

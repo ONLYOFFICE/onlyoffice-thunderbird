@@ -7,6 +7,11 @@ export const LoaderComponent = {
             : path;
     },
 
+    _getIcon(iconPath) {
+        const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+        return isDark ? iconPath.replace('.svg', '_dark.svg') : iconPath;
+    },
+
     _createElement(tag, className, attributes = {}) {
         const el = document.createElement(tag);
         if (className) el.className = className;
@@ -30,7 +35,7 @@ export const LoaderComponent = {
 
     _createSpinner(altText) {
         return this._createElement('img', 'loader-container__spinner', {
-            src: this._getBrowserURL('images/loader.svg'),
+            src: this._getBrowserURL(this._getIcon('images/loader.svg')),
             alt: altText
         });
     },
