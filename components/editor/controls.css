@@ -1,0 +1,148 @@
+.editor-controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    overflow: hidden;
+    z-index: 9998;
+
+    background: #fff;
+}
+
+.editor-controls__wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 68px;
+
+    width: auto;
+    height: auto;
+
+    overflow: hidden;
+    z-index: 9999;
+
+    background: #fff;
+}
+
+.editor-controls__placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.editor-controls__placeholder iframe {
+    display: block;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: none;    
+}
+
+.editor-controls__buttons {
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    gap: 10px;
+
+    height: 68px;
+
+    padding: 0 16px;
+
+    background-color: #ECECEC;
+    border-top: 1px solid #CBCBCB;
+
+    z-index: 10000;
+}
+
+.editor-controls__buttons.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.editor-controls__button {
+    width: 140px;
+    height: 36px;
+
+    padding: 9px 23px;
+
+    font-size: 14px;
+
+    border-radius: 2px;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.editor-controls__button--secondary {
+    border: 1px solid #A1A1AA;
+    background-color: #E4E4E7;
+}
+
+.editor-controls__button--secondary:hover {
+    background-color: #D4D4D8;
+    border-color: #71717A;
+}
+
+.editor-controls__button--secondary:active {
+    background-color: #E4E4E7;
+    border-color: #A1A1AA;
+}
+
+.editor-controls__button--secondary:disabled:hover {
+    background-color: #E4E4E7;
+    border-color: #A1A1AA;
+}
+
+.editor-controls__button--primary {
+    border: 1px solid #A1A1AA;
+    background-color: #007AFF;
+    color: white;
+}
+
+.editor-controls__button--primary:hover {
+    background-color: #0066E5;
+    border-color: #71717A;
+}
+
+.editor-controls__button--primary:active {
+    background-color: #007AFF;
+    border-color: #A1A1AA;
+}
+
+.editor-controls__button--primary:disabled:hover {
+    background-color: #007AFF;
+    border-color: #A1A1AA;
+}
+
+.editor-controls__button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

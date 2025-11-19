@@ -3,6 +3,7 @@ import { PageComponent } from './router.js';
 import { FileComponents } from '../components/file/item.js';
 import { FileListComponent } from '../components/file/list.js';
 import { LoaderComponent } from '../components/loader/loader.js';
+import { EditorControlsComponent } from '../components/editor/controls.js';
 
 import { ThunderbirdAPI } from '../common/api.js';
 import { FileOperations } from '../common/file.js';
@@ -144,29 +145,82 @@ export class ViewerPage extends PageComponent {
     constructor() {
         super(null);
         this.currentFile = null;
+        this.documentEditor = null;
     }
 
     async render(data) {
-        this.element = document.createElement('div');
-        this.element.id = 'placeholder';
-        this.element.style.width = '100%';
-        this.element.style.height = '100%';
+        LoaderComponent.init();
         
         const fileName = data?.file?.name || 'file';
         const loadingMessage = messenger.i18n.getMessage('openingFile').replace('__%FILE%__', fileName);
         const loadingAltText = messenger.i18n.getMessage('loading');
-        const loaderTemplate = LoaderComponent.createTemplate(loadingMessage, loadingAltText);
-        loaderTemplate.style.animation = 'fadeIn 0.3s ease-in';
-        this.element.appendChild(loaderTemplate);
+        
+        this.element = LoaderComponent.createTemplate(loadingMessage, loadingAltText);
         
         return this.element;
+    }
+
+    _handleCancel() {
+        window.close();
+    }
+
+    _handleSave() {
+        if (this.documentEditor?.instance?.downloadAs) {
+            this.documentEditor.instance.downloadAs();
+        }
+    }
+
+    _renderEditorControls() {
+        EditorControlsComponent.init();
+
+        const translations = {
+            cancel: messenger.i18n.getMessage('cancel'),
+            save: messenger.i18n.getMessage('save')
+        };
+
+        const callbacks = {
+            onCancel: () => this._handleCancel(),
+            onSave: () => this._handleSave()
+        };
+
+        const editorElement = EditorControlsComponent.createTemplate(translations);
+        EditorControlsComponent.attachHandlers(editorElement, callbacks);
+        
+        const container = this.element.parentElement;
+        if (container) {
+            container.replaceChild(editorElement, this.element);
+            this.element = editorElement;
+            this.placeholder = EditorControlsComponent.getPlaceholder(editorElement);
+            this.buttonsContainer = EditorControlsComponent.getButtonsContainer(editorElement);
+        }
+    }
+
+    _showError(message) {
+        if (this.placeholder) {
+            this.placeholder.textContent = message;
+        } else if (this.element) {
+            this.element.textContent = message;
+        }
+    }
+
+    _configureIframe() {
+        const wrapper = document.querySelector('.editor-controls__wrapper');
+        const iframe = wrapper?.querySelector('iframe');
+        if (iframe) {
+            iframe.setAttribute('scrolling', 'no');
+        }
+    }
+
+    _showButtons() {
+        if (this.buttonsContainer) {
+            this.buttonsContainer.classList.add('show');
+        }
     }
 
     async init(data) {
         const file = data?.file;
         if (!file) {
-            if (this.element)
-                this.element.textContent = messenger.i18n.getMessage('noFile');
+            this._showError(messenger.i18n.getMessage('noFile'));
             return;
         }
 
@@ -179,18 +233,39 @@ export class ViewerPage extends PageComponent {
             const docType = FileOperations.getFileType(extension);
 
             const { DocumentEditor } = await import('../common/editor.js');
+            this.documentEditor = DocumentEditor;
+
+            this._renderEditorControls();
+
             await DocumentEditor.init(base64Data, file.name, extension, docType);
+            
+            this._configureIframe();
+            this._showButtons();
         } catch (error) {
-            if (this.element)
-                this.element.textContent = `${messenger.i18n.getMessage('error')}: ${error.message}`;
+            this._showError(`${messenger.i18n.getMessage('error')}: ${error.message}`);
             throw error;
         }
     }
 
-    async cleanup() {
-        if (this.element)
-            this.element.innerHTML = '';
+    _clearPlaceholder() {
+        if (this.placeholder) {
+            this.placeholder.innerHTML = '';
+        }
+    }
 
+    _hideButtons() {
+        if (this.buttonsContainer) {
+            this.buttonsContainer.classList.remove('show');
+        }
+    }
+
+    async cleanup() {
+        this._clearPlaceholder();
+        this._hideButtons();
+        
         this.currentFile = null;
+        this.documentEditor = null;
+        this.placeholder = null;
+        this.buttonsContainer = null;
     }
 }
