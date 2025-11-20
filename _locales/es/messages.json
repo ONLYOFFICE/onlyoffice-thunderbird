@@ -8,6 +8,33 @@
     "openEditor": {
         "message": "Open in ONLYOFFICE ES"
     },
+    "createDocument": {
+        "message": "Create a document ES"
+    },
+    "createOnlyoffice": {
+        "message": "Create with ONLYOFFICE ES"
+    },
+    "title": {
+        "message": "Title ES"
+    },
+    "newDocument": {
+        "message": "New document ES"
+    },
+    "documentType": {
+        "message": "Document ES"
+    },
+    "spreadsheetType": {
+        "message": "Spreadsheet ES"
+    },
+    "presentationType": {
+        "message": "Presentation ES"
+    },
+    "close": {
+        "message": "Close ES"
+    },
+    "create": {
+        "message": "Create ES"
+    },
     "emptyStateTitle": {
         "message": "No docs here yet ES"
     },

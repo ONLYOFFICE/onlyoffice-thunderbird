@@ -1,0 +1,47 @@
+<template id="template-file-creator">
+    <div class="file-creator" role="dialog" aria-labelledby="dialog-title">
+        <div class="file-creator__container">
+            <h1 id="dialog-title" class="file-creator__title" data-i18n-content="createOnlyoffice"></h1>
+            
+            <div class="file-creator__content">
+                <div class="file-creator__input-group">
+                    <label for="documentTitle" class="file-creator__label" data-i18n-content="title"></label>
+                    <input 
+                        type="text" 
+                        id="documentTitle" 
+                        class="file-creator__input"
+                        data-i18n-value="newDocument"
+                    />
+                </div>
+                
+                <div class="file-creator__types">
+                    <button class="file-creator__type-button file-creator__type-button--selected" data-type="document">
+                        <div class="file-creator__type-icon">
+                            <img src="../../images/word.svg" alt="Document">
+                        </div>
+                        <span class="file-creator__type-label" data-i18n-content="documentType"></span>
+                    </button>
+                    
+                    <button class="file-creator__type-button" data-type="spreadsheet">
+                        <div class="file-creator__type-icon">
+                            <img src="../../images/cell.svg" alt="Spreadsheet">
+                        </div>
+                        <span class="file-creator__type-label" data-i18n-content="spreadsheetType"></span>
+                    </button>
+                    
+                    <button class="file-creator__type-button" data-type="presentation">
+                        <div class="file-creator__type-icon">
+                            <img src="../../images/slide.svg" alt="Presentation">
+                        </div>
+                        <span class="file-creator__type-label" data-i18n-content="presentationType"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="file-creator__footer">
+                <button class="file-creator__button file-creator__button--secondary" id="closeBtn" data-i18n-content="close"></button>
+                <button class="file-creator__button file-creator__button--primary" id="createBtn" data-i18n-content="create"></button>
+            </div>
+        </div>
+    </div>
+</template>

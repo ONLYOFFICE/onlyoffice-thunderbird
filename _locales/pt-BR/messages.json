@@ -8,6 +8,33 @@
     "openEditor": {
         "message": "Open in ONLYOFFICE PT-BR"
     },
+    "createDocument": {
+        "message": "Create a document PT-BR"
+    },
+    "createOnlyoffice": {
+        "message": "Create with ONLYOFFICE PT-BR"
+    },
+    "title": {
+        "message": "Title PT-BR"
+    },
+    "newDocument": {
+        "message": "New document PT-BR"
+    },
+    "documentType": {
+        "message": "Document PT-BR"
+    },
+    "spreadsheetType": {
+        "message": "Spreadsheet PT-BR"
+    },
+    "presentationType": {
+        "message": "Presentation PT-BR"
+    },
+    "close": {
+        "message": "Close PT-BR"
+    },
+    "create": {
+        "message": "Create PT-BR"
+    },
     "emptyStateTitle": {
         "message": "No docs here yet PT-BR"
     },

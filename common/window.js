@@ -48,6 +48,18 @@ export const WindowManager = {
         }
     },
 
+    async openCreateViewer(tab) {
+        try {
+            await this.open(
+                `${WINDOW_KEYS.COMPOSE}${tab.id}_create`,
+                `pages/create.html?composeTabId=${tab.id}`,
+                { width: 450, height: 280 }
+            );
+        } catch (error) {
+            logger.error('Error opening create viewer:', error);
+        }
+    },
+
     async openMessageViewer(tab) {
         try {
             const messages = await browser.mailTabs.getSelectedMessages(tab.id);
@@ -83,9 +95,12 @@ export const WindowManager = {
                 if (tab.id) {
                     const details = await browser.compose.getComposeDetails(tab.id);
                     if (details) {
+                        const url = `pages/viewer.html?composeTabId=${tab.id}` +
+                            `&attachmentId=${attachment.id}` +
+                            `&attachmentName=${encodeURIComponent(filename)}`;
                         await this.open(
                             `${WINDOW_KEYS.COMPOSE}${tab.id}_${attachment.id}`,
-                            `pages/viewer.html?composeTabId=${tab.id}&attachmentName=${encodeURIComponent(filename)}`
+                            url
                         );
                         return;
                     }
@@ -111,9 +126,12 @@ export const WindowManager = {
                 return;
             }
 
+            const uniqueKey = attachment.id || attachment.partName;
+            const urlParams = `messageId=${messageId}&attachmentName=${encodeURIComponent(filename)}`;
+            const idParam = attachment.id ? `attachmentId=${attachment.id}` : attachment.partName ? `attachmentPartName=${encodeURIComponent(attachment.partName)}` : '';
             await this.open(
-                `${WINDOW_KEYS.MESSAGE}${messageId}_${attachment.partName}`,
-                `pages/viewer.html?messageId=${messageId}&attachmentName=${encodeURIComponent(filename)}`
+                `${WINDOW_KEYS.MESSAGE}${messageId}_${uniqueKey}`,
+                `pages/viewer.html?${urlParams}&${idParam}`
             );
         } catch (error) {
             logger.error('Error opening attachment viewer:', error);
@@ -146,9 +164,19 @@ export const WindowManager = {
         }
 
         if (browser.composeAction) {
-            browser.composeAction.onClicked.addListener((tab) => 
-                this.openComposeViewer(tab)
-            );
+            browser.menus.create({
+                id: 'compose_open_editor',
+                title: messenger.i18n.getMessage('openEditor'),
+                contexts: ['compose_action_menu'],
+                onclick: (info, tab) => this.openComposeViewer(tab)
+            });
+            
+            browser.menus.create({
+                id: 'compose_create_document',
+                title: messenger.i18n.getMessage('createDocument'),
+                contexts: ['compose_action_menu'],
+                onclick: (info, tab) => this.openCreateViewer(tab)
+            });
         } else {
             logger.warn('composeAction not available');
         }

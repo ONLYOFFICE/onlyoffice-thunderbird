@@ -65,7 +65,8 @@ export class TemplateRenderer {
             '../components/loader/loader.html',
             '../components/error/error.html',
             '../components/file/list.html',
-            '../components/file/item.html'
+            '../components/file/item.html',
+            '../components/create/create.html'
         ];
 
         await Promise.all(paths.map(async path => {
@@ -86,14 +87,14 @@ export class TemplateRenderer {
     static render(templateId, data = {}) {
         const template = this.templates.get(templateId);
         if (!template) {
-            const errorMsg = messenger.i18n.getMessage('templateRenderFailed').replace('__%TEMPLATE%__', templateId);
+            const errorMsg = messenger.i18n.getMessage('templateRenderFailed')?.replace('__%TEMPLATE%__', templateId) || `Template not found: ${templateId}`;
             throw new Error(errorMsg);
         }
 
         const container = document.createElement('div');
         container.appendChild(template.content.cloneNode(true));
 
-        Object.entries(data).forEach(([key, value]) => {
+        Object.entries(data || {}).forEach(([key, value]) => {
             container.querySelectorAll(`[data-bind="${key}"]`).forEach(el => {
                 if (el.tagName === 'IMG') el.src = value;
                 else if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.value = value;
@@ -114,7 +115,7 @@ export class PageComponent {
     async render(data) {
         this.element = TemplateRenderer.render(this.templateId, data);
         if (!this.element) {
-            const errorMsg = messenger.i18n.getMessage('templateRenderFailed').replace('__%TEMPLATE%__', this.templateId);
+            const errorMsg = messenger.i18n.getMessage('templateRenderFailed')?.replace('__%TEMPLATE%__', this.templateId) || `Failed to render template: ${this.templateId}`;
             throw new Error(errorMsg);
         }
 

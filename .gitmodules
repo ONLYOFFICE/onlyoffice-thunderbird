@@ -1,3 +1,7 @@
 [submodule "vendor/document-formats"]
 	path = vendor/document-formats
 	url = https://github.com/ONLYOFFICE/document-formats.git
+[submodule "vendor/document-templates"]
+	path = vendor/document-templates
+	url = https://github.com/ONLYOFFICE/document-templates.git
+	branch = main/new-2letter-code

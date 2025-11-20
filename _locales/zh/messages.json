@@ -8,6 +8,33 @@
     "openEditor": {
         "message": "Open in ONLYOFFICE ZH"
     },
+    "createDocument": {
+        "message": "Create a document ZH"
+    },
+    "createOnlyoffice": {
+        "message": "Create with ONLYOFFICE ZH"
+    },
+    "title": {
+        "message": "Title ZH"
+    },
+    "newDocument": {
+        "message": "New document ZH"
+    },
+    "documentType": {
+        "message": "Document ZH"
+    },
+    "spreadsheetType": {
+        "message": "Spreadsheet ZH"
+    },
+    "presentationType": {
+        "message": "Presentation ZH"
+    },
+    "close": {
+        "message": "Close ZH"
+    },
+    "create": {
+        "message": "Create ZH"
+    },
     "emptyStateTitle": {
         "message": "No docs here yet ZH"
     },

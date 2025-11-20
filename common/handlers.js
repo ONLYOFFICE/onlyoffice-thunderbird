@@ -109,5 +109,45 @@ export const MessageHandlers = {
             success: false,
             userInfo: {}
         });
+    }),
+
+    createNewDocument: withErrorHandling(async (request, sendResponse) => {
+        const tabId = parseInt(request.composeTabId);
+        const title = request.title || 'New document';
+        const type = request.type || 'document';
+
+        const extensions = { document: '.docx', spreadsheet: '.xlsx', presentation: '.pptx' };
+        const extension = extensions[type] || '.docx';
+        const filename = title + extension;
+
+        const locale = messenger.i18n.getUILanguage();
+        const localeVariants = [locale.toLowerCase(), locale,
+            locale.split('-')[0], 'default'];
+        const templatePaths = localeVariants.map(l => 
+            `vendor/document-templates/${l}/new${extension}`);
+
+        let templateData;
+        for (const path of templatePaths) {
+            try {
+                const response = await fetch(browser.runtime.getURL(path));
+                if (response.ok) {
+                    templateData = await response.arrayBuffer();
+                    logger.debug(`Using template: ${path}`);
+                    break;
+                }
+            } catch (error) {
+                continue;
+            }
+        }
+
+        if (!templateData) {
+            sendResponse({ success: false, error: `Failed to load document template for locale: ${locale}` });
+            return;
+        }
+
+        const file = new File([templateData], filename);
+        await browser.compose.addAttachment(tabId, { file, name: filename });
+        
+        sendResponse({ success: true, filename });
     })
 };

@@ -35,9 +35,19 @@ const App = {
                 .filter(att => FileOperations.isSupportedFile(att));
             
             const params = new URLSearchParams(window.location.search);
+            const attachmentId = params.get('attachmentId');
             const attachmentName = params.get('attachmentName');
+            const attachmentPartName = params.get('attachmentPartName');
+            
             if (attachmentName && attachments.length) {
-                const attachment = attachments.find(att => att.name === attachmentName);
+                let attachment = null;
+                if (attachmentId)
+                    attachment = attachments.find(att => att.id && att.id.toString() === attachmentId);
+                if (!attachment && attachmentPartName)
+                    attachment = attachments.find(att => att.partName === attachmentPartName);
+                if (!attachment)
+                    attachment = attachments.find(att => att.name === attachmentName);
+                
                 if (attachment) await router.navigate('viewer', { file: attachment });
                 else await router.navigate(attachments.length ? 'files' : 'empty', 
                     attachments.length ? { files: attachments } : {});

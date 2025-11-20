@@ -269,3 +269,93 @@ export class ViewerPage extends PageComponent {
         this.buttonsContainer = null;
     }
 }
+
+export class CreatePage extends PageComponent {
+    constructor() {
+        super('template-file-creator');
+        this.selectedType = 'document';
+        this.composeTabId = null;
+    }
+
+    async render(data) {
+        await super.render(data);
+        return this.element;
+    }
+
+    async init(data) {
+        if (data?.composeTabId) {
+            this.composeTabId = data.composeTabId;
+        } else {
+            const params = new URLSearchParams(window.location.search);
+            this.composeTabId = params.get('composeTabId');
+        }
+        
+        const { localizeDocument } = await import('../common/i18n.js');
+        localizeDocument();
+        
+        const titleInput = this.querySelector('#documentTitle');
+        if (titleInput) {
+            setTimeout(() => {
+                titleInput.focus();
+                titleInput.select();
+            }, 100);
+        }
+        
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        const typeButtons = this.element.querySelectorAll('.file-creator__type-button');
+        typeButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                typeButtons.forEach(btn => btn.classList.remove('file-creator__type-button--selected'));
+                button.classList.add('file-creator__type-button--selected');
+                this.selectedType = button.dataset.type;
+            });
+        });
+
+        const closeBtn = this.querySelector('#closeBtn');
+        if (closeBtn)
+            closeBtn.addEventListener('click', () => window.close());
+
+        const createBtn = this.querySelector('#createBtn');
+        if (createBtn)
+            createBtn.addEventListener('click', () => this.createDocument());
+
+        const titleInput = this.querySelector('#documentTitle');
+        if (titleInput)
+            titleInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') this.createDocument();
+            });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') window.close();
+        });
+    }
+
+    async createDocument() {
+        const titleInput = this.querySelector('#documentTitle');
+        const title = titleInput?.value.trim() || messenger.i18n.getMessage('newDocument') || 'New document';
+
+        try {
+            const response = await browser.runtime.sendMessage({
+                action: 'createNewDocument',
+                title: title,
+                type: this.selectedType,
+                composeTabId: this.composeTabId
+            });
+
+            if (response.error)
+                return;
+
+            window.close();
+        } catch (error) {
+            return;
+        }
+    }
+
+    async cleanup() {
+        this.selectedType = 'document';
+        this.composeTabId = null;
+    }
+}
