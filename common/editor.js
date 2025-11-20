@@ -117,11 +117,13 @@ export const DocumentEditor = {
             documentData: data,
             document: {
                 fileType: extension,
+                key: `${Math.random().toString(36).substring(2, 9)}`,
                 title: name,
                 url: '_data_',
                 permissions: permissions
             },
             documentType: type,
+            type: 'desktop',
             height: '100%',
             width: '100%',
             editorConfig: {
@@ -144,6 +146,7 @@ export const DocumentEditor = {
             const payload = {
                 document: config.document,
                 documentType: config.documentType,
+                type: config.type,
                 editorConfig: {
                     mode: config.editorConfig.mode,
                     user: config.editorConfig.user,
