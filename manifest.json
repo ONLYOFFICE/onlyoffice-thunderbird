@@ -48,6 +48,7 @@
       "default_title": "__MSG_openEditor__",
       "default_icon": {
         "32": "images/icon.png"
-      }
+      },
+      "type": "menu"
     }
 }
