@@ -1,7 +1,7 @@
 {
   "server": {
-    "url": "https://<document-server-url>",
-    "secret": "<document-server-secret>"
+    "url": "$SERVER_URL$",
+    "secret": "$SERVER_SECRET$"
   },
   "ui": {
     "window": {

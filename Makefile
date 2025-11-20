@@ -94,11 +94,17 @@ build: clean check-tools
 	@echo "Applying environment variable overrides to config..."
 ifdef SERVER_URL
 	@echo "Setting server URL to: $(SERVER_URL)"
-	@sed -i.bak 's|"url": "[^"]*"|"url": "$(SERVER_URL)"|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+	@sed -i.bak 's|\$$SERVER_URL\$$|$(SERVER_URL)|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+	@sed -i.bak 's|\$$SERVER_URL\$$|$(SERVER_URL)|g' $(BUILD_DIR)/manifest.json && rm $(BUILD_DIR)/manifest.json.bak
+else
+	@sed -i.bak 's|\$$SERVER_URL\$$|http://127.0.0.1|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+	@sed -i.bak 's|\$$SERVER_URL\$$|http://127.0.0.1|g' $(BUILD_DIR)/manifest.json && rm $(BUILD_DIR)/manifest.json.bak
 endif
 ifdef SERVER_SECRET
 	@echo "Setting server secret"
-	@sed -i.bak 's|"secret": "[^"]*"|"secret": "$(SERVER_SECRET)"|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+	@sed -i.bak 's|\$$SERVER_SECRET\$$|$(SERVER_SECRET)|g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
+else
+	@sed -i.bak 's|\$$SERVER_SECRET\$$||g' $(BUILD_DIR)/config/config.json && rm $(BUILD_DIR)/config/config.json.bak
 endif
 	
 	@echo "Minifying JavaScript files..."
