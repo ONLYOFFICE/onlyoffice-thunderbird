@@ -1,12 +1,8 @@
 <template id="template-loader">
-    <div id="loader" class="loader" role="status" aria-live="polite">
-        <div class="loader__container">
-            <div class="loader__spinner">
-                <div class="loader__ring"></div>
-                <div class="loader__ring"></div>
-                <div class="loader__ring"></div>
-            </div>
-            <p class="loader__text" data-i18n-content="loadingDefault"></p>
+    <div id="loader" class="loader-container" role="status" aria-live="polite">
+        <div class="loader-container__box">
+            <img class="loader-container__spinner" src="" alt="Loading">
+            <div class="loader-container__message" data-i18n-content="loadingDefault"></div>
         </div>
     </div>
 </template>

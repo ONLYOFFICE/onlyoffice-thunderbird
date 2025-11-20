@@ -1,6 +1,9 @@
 import { logger } from '../../common/logger.js';
 
 export const LoaderComponent = {
+    _minDisplayTime: 350,
+    _startTime: null,
+
     _getBrowserURL(path) {
         return typeof browser !== 'undefined' 
             ? browser.runtime.getURL(path)
@@ -34,10 +37,12 @@ export const LoaderComponent = {
     },
 
     _createSpinner(altText) {
-        return this._createElement('img', 'loader-container__spinner', {
-            src: this._getBrowserURL(this._getIcon('images/loader.svg')),
+        const spinner = this._createElement('img', 'loader-container__spinner', {
+            src: '',
             alt: altText
         });
+        spinner.style.opacity = '0';
+        return spinner;
     },
 
     _createMessage(message) {
@@ -57,9 +62,24 @@ export const LoaderComponent = {
         this.injectStyles();
     },
 
-    createTemplate(message, altText = 'Loading') {
+    initializeSpinner(element) {
+        const spinner = element?.querySelector ? element.querySelector('.loader-container__spinner') : element;
+        if (!spinner) return;
+        
+        setTimeout(() => {
+            spinner.src = this._getBrowserURL(this._getIcon('images/loader.svg'));
+            spinner.style.opacity = '1';
+            spinner.style.transition = 'opacity 0.3s ease-in';
+        }, 50);
+    },
+
+    createTemplate(message, altText = 'Loading', autoInitialize = true) {
         const container = this._createContainer();
-        container.appendChild(this._createLoaderBox(message, altText));
+        const loaderBox = this._createLoaderBox(message, altText);
+        container.appendChild(loaderBox);
+        
+        if (autoInitialize) this.initializeSpinner(container);
+        
         return container;
     },
 
@@ -79,25 +99,29 @@ export const LoaderComponent = {
         document.head.appendChild(link);
     },
 
-    show(message, altText = 'Loading') {
-        this.injectStyles();
-        
-        const loader = this.createTemplate(message, altText);
-        const container = document.querySelector('.container');
-        
-        if (container) {
-            container.innerHTML = '';
-            container.appendChild(loader);
-        } else {
-            document.body.appendChild(loader);
-        }
-        
-        return loader;
+    trackShow() {
+        this._startTime = Date.now();
     },
 
-    hide() {
-        const loaderContainer = document.getElementById('loader-container');
-        if (loaderContainer) loaderContainer.remove();
+    async waitMinimumTime() {
+        if (this._startTime) {
+            const elapsed = Date.now() - this._startTime;
+            const remaining = this._minDisplayTime - elapsed;
+            
+            if (remaining > 0) await new Promise(resolve => setTimeout(resolve, remaining));
+        }
+        this._startTime = null;
+    },
+
+    async hide(element) {
+        await this.waitMinimumTime();
+        
+        const loaderContainer = element || document.getElementById('loader-container');
+        if (loaderContainer) {
+            loaderContainer.style.animation = 'fadeOut 350ms ease-out forwards';
+            await new Promise(resolve => setTimeout(resolve, 350));
+            loaderContainer.remove();
+        }
     },
 
     isVisible() {

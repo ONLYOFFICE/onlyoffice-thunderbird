@@ -4,8 +4,8 @@ export class Router {
     constructor(containerId = 'app-container') {
         this.container = document.getElementById(containerId);
         this.currentPage = null;
+        this.currentPageName = null;
         this.routes = new Map();
-        this.navigationTimeout = 10000;
         this.isNavigating = false;
     }
 
@@ -33,8 +33,17 @@ export class Router {
                 throw new Error(errorMsg);
             }
             
+            content.style.opacity = '0';
             this.container.appendChild(content);
+            
+            requestAnimationFrame(() => {
+                content.style.animation = 'fadeIn 300ms ease-in';
+                content.style.opacity = '1';
+            });
+            
             this.currentPage = route;
+            this.currentPageName = pageName;
+            
             if (route.init) await route.init(data);
         } catch (error) {
             if (pageName !== 'error') {

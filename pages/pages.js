@@ -14,20 +14,26 @@ export class LoadingPage extends PageComponent {
     }
 
     async init(data) {
-        const textElement = this.querySelector('.loader__text');
-        if (textElement) {
+        const messageElement = this.querySelector('.loader-container__message');
+        if (messageElement) {
             if (data?.message) {
-                textElement.textContent = data.message;
+                messageElement.textContent = data.message;
             } else {
                 const { localizeDocument } = await import('../common/i18n.js');
                 localizeDocument();
             }
         }
+        LoaderComponent.initializeSpinner(this.element);
+        LoaderComponent.trackShow();
     }
 
     async render(data) {
         await super.render(data);
         return this.element;
+    }
+
+    async cleanup() {
+        await LoaderComponent.waitMinimumTime();
     }
 }
 
@@ -156,6 +162,7 @@ export class ViewerPage extends PageComponent {
         const loadingAltText = messenger.i18n.getMessage('loading');
         
         this.element = LoaderComponent.createTemplate(loadingMessage, loadingAltText);
+        LoaderComponent.trackShow();
         
         return this.element;
     }
@@ -170,7 +177,7 @@ export class ViewerPage extends PageComponent {
         }
     }
 
-    _renderEditorControls() {
+    async _renderEditorControls() {
         EditorControlsComponent.init();
 
         const translations = {
@@ -188,7 +195,8 @@ export class ViewerPage extends PageComponent {
         
         const container = this.element.parentElement;
         if (container) {
-            container.replaceChild(editorElement, this.element);
+            await LoaderComponent.hide(this.element);
+            container.appendChild(editorElement);
             this.element = editorElement;
             this.placeholder = EditorControlsComponent.getPlaceholder(editorElement);
             this.buttonsContainer = EditorControlsComponent.getButtonsContainer(editorElement);
@@ -235,7 +243,7 @@ export class ViewerPage extends PageComponent {
             const { DocumentEditor } = await import('../common/editor.js');
             this.documentEditor = DocumentEditor;
 
-            this._renderEditorControls();
+            await this._renderEditorControls();
 
             await DocumentEditor.init(base64Data, file.name, extension, docType);
             
