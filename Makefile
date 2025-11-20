@@ -1,5 +1,6 @@
 SRC_DIR = .
 BUILD_DIR = build
+DIST_DIR = dist
 COMMON_DIR = $(SRC_DIR)/common
 COMPONENTS_DIR = $(SRC_DIR)/components
 PAGES_DIR = $(SRC_DIR)/pages
@@ -40,8 +41,9 @@ install-tools:
 	@echo "Installation complete!"
 
 clean:
-	@echo "Cleaning build directory..."
+	@echo "Cleaning build and dist directories..."
 	@rm -rf $(BUILD_DIR)
+	@rm -rf $(DIST_DIR)
 
 check-tools:
 	@echo "Checking for required build tools..."
@@ -113,4 +115,6 @@ endif
 	@echo "Minifying CSS files..."
 	@find $(BUILD_DIR) -name "*.css" -type f -exec $(CSS_MINIFIER) -o {} {} \;
 	
-	@echo "Build complete! Output in $(BUILD_DIR)/"
+	@echo "Creating distribution archive..."
+	@mkdir -p $(DIST_DIR)
+	@tar -czf $(DIST_DIR)/onlyoffice-thunderbird.tar.gz -C $(BUILD_DIR) .
