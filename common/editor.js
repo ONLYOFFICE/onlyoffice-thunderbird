@@ -108,7 +108,7 @@ export const DocumentEditor = {
         }
     },
 
-    async buildConfig(data, name, extension, type) {
+    async buildConfig(data, name, extension, type, onReady) {
         const permissions = this._getPermissions(extension);
         const mode = permissions.edit ? 'edit' : 'view';
         const userInfo = await this._getUserInfo();
@@ -136,7 +136,13 @@ export const DocumentEditor = {
                 }
             },
             events: {
-                onAppReady: () => this.onAppReady(data),
+                onAppReady: () => {
+                    this.onAppReady(data);
+                    if (onReady) onReady();
+                },
+                onError: () => {
+                    if (onReady) onReady();
+                },
                 onSaveDocument: (event) => this.onSaveDocument(event, name),
                 onDownloadAs: (event) => this.onSaveDocument(event, name)
             }
@@ -168,12 +174,12 @@ export const DocumentEditor = {
         return config;
     },
 
-    async init(data, name, extension, type) {
+    async init(data, name, extension, type, onReady) {
         await this.loadApiJs();
         if (typeof DocsAPI === 'undefined')
             throw new Error(messenger.i18n.getMessage('errorDocApiNotLoaded'));
 
-        this.config = await this.buildConfig(data, name, extension, type);
+        this.config = await this.buildConfig(data, name, extension, type, onReady);
         this.instance = new DocsAPI.DocEditor('placeholder', this.config);
     }
 };

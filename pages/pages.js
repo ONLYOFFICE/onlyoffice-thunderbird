@@ -3,7 +3,6 @@ import { PageComponent } from './router.js';
 import { FileComponents } from '../components/file/item.js';
 import { FileListComponent } from '../components/file/list.js';
 import { LoaderComponent } from '../components/loader/loader.js';
-import { EditorControlsComponent } from '../components/editor/controls.js';
 
 import { ThunderbirdAPI } from '../common/api.js';
 import { FileOperations } from '../common/file.js';
@@ -167,62 +166,29 @@ export class ViewerPage extends PageComponent {
         return this.element;
     }
 
-    _handleCancel() {
-        window.close();
-    }
-
-    _handleSave() {
-        if (this.documentEditor?.instance?.downloadAs) {
-            this.documentEditor.instance.downloadAs();
-        }
-    }
-
-    async _renderEditorControls() {
-        EditorControlsComponent.init();
-
-        const translations = {
-            cancel: messenger.i18n.getMessage('cancel'),
-            save: messenger.i18n.getMessage('save')
-        };
-
-        const callbacks = {
-            onCancel: () => this._handleCancel(),
-            onSave: () => this._handleSave()
-        };
-
-        const editorElement = EditorControlsComponent.createTemplate(translations);
-        EditorControlsComponent.attachHandlers(editorElement, callbacks);
-        
+    async _renderEditor() {
+        const editorContainer = document.createElement('div');
+        editorContainer.id = 'placeholder';
+        editorContainer.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100%; height: 100%;';
         const container = this.element.parentElement;
-        if (container) {
-            await LoaderComponent.hide(this.element);
-            container.appendChild(editorElement);
-            this.element = editorElement;
-            this.placeholder = EditorControlsComponent.getPlaceholder(editorElement);
-            this.buttonsContainer = EditorControlsComponent.getButtonsContainer(editorElement);
-        }
+        if (container) 
+            container.appendChild(editorContainer);
+    }
+    
+    async _hideLoader() {
+        if (this.loaderElement) 
+            await LoaderComponent.hide(this.loaderElement);
     }
 
     _showError(message) {
-        if (this.placeholder) {
-            this.placeholder.textContent = message;
-        } else if (this.element) {
+        if (this.element)
             this.element.textContent = message;
-        }
     }
 
     _configureIframe() {
-        const wrapper = document.querySelector('.editor-controls__wrapper');
-        const iframe = wrapper?.querySelector('iframe');
-        if (iframe) {
-            iframe.setAttribute('scrolling', 'no');
-        }
-    }
-
-    _showButtons() {
-        if (this.buttonsContainer) {
-            this.buttonsContainer.classList.add('show');
-        }
+        const iframe = this.element?.querySelector('iframe') ? this.element?.querySelector('iframe')
+            : this.element?.parentElement?.querySelector('iframe');
+        if (iframe) iframe.setAttribute('scrolling', 'no');
     }
 
     async init(data) {
@@ -233,7 +199,7 @@ export class ViewerPage extends PageComponent {
         }
 
         this.currentFile = file;
-
+        this.loaderElement = this.element;
         try {
             const arrayBuffer = await ThunderbirdAPI.getAttachmentData(file);
             const base64Data = FileOperations.convertBuffer(arrayBuffer);
@@ -243,38 +209,21 @@ export class ViewerPage extends PageComponent {
             const { DocumentEditor } = await import('../common/editor.js');
             this.documentEditor = DocumentEditor;
 
-            await this._renderEditorControls();
-
-            await DocumentEditor.init(base64Data, file.name, extension, docType);
-            
-            this._configureIframe();
-            this._showButtons();
+            await this._renderEditor();
+            await DocumentEditor.init(base64Data, file.name, extension, docType, () => {
+                this._hideLoader();
+                this._configureIframe();
+            });
         } catch (error) {
             this._showError(`${messenger.i18n.getMessage('error')}: ${error.message}`);
             throw error;
         }
     }
 
-    _clearPlaceholder() {
-        if (this.placeholder) {
-            this.placeholder.innerHTML = '';
-        }
-    }
-
-    _hideButtons() {
-        if (this.buttonsContainer) {
-            this.buttonsContainer.classList.remove('show');
-        }
-    }
-
     async cleanup() {
-        this._clearPlaceholder();
-        this._hideButtons();
-        
         this.currentFile = null;
         this.documentEditor = null;
-        this.placeholder = null;
-        this.buttonsContainer = null;
+        this.loaderElement = null;
     }
 }
 
