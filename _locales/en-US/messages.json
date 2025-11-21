@@ -5,8 +5,11 @@
     "extensionDescription": {
         "message": "Edit documents in Thunderbird using ONLYOFFICE Document Server"
     },
-    "openEditor": {
-        "message": "Open in ONLYOFFICE"
+    "onlyofficeButton": {
+        "message": "ONLYOFFICE"
+    },
+    "openButton": {
+        "message": "Open"
     },
     "createDocument": {
         "message": "Create a document"

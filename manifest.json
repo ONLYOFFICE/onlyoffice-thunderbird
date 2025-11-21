@@ -39,13 +39,13 @@
       "persistent": true
     },
     "message_display_action": {
-      "default_title": "__MSG_openEditor__",
+      "default_title": "__MSG_onlyofficeButton__",
       "default_icon": {
         "32": "images/icon.png"
       }
     },
     "compose_action": {
-      "default_title": "__MSG_openEditor__",
+      "default_title": "__MSG_onlyofficeButton__",
       "default_icon": {
         "32": "images/icon.png"
       },

@@ -141,14 +141,14 @@ export const WindowManager = {
     async setupMenus() {
         browser.menus.create({
             id: 'openEditor',
-            title: messenger.i18n.getMessage('openEditor'),
+            title: messenger.i18n.getMessage('openButton'),
             contexts: ['message_list'],
             onclick: (info, tab) => this.openMessageViewer(tab)
         });
 
         browser.menus.create({
             id: 'openAttachment',
-            title: messenger.i18n.getMessage('openEditor'),
+            title: messenger.i18n.getMessage('openButton'),
             contexts: ['message_attachments', 'all_message_attachments', 'compose_attachments'],
             onclick: (info, tab) => this.openAttachmentViewer(info, tab)
         });
@@ -166,7 +166,7 @@ export const WindowManager = {
         if (browser.composeAction) {
             browser.menus.create({
                 id: 'compose_open_editor',
-                title: messenger.i18n.getMessage('openEditor'),
+                title: messenger.i18n.getMessage('openButton'),
                 contexts: ['compose_action_menu'],
                 onclick: (info, tab) => this.openComposeViewer(tab)
             });

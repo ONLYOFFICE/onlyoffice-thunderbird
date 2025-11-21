@@ -5,8 +5,11 @@
     "extensionDescription": {
         "message": "Edit documents in Thunderbird using ONLYOFFICE Document Server ZH"
     },
-    "openEditor": {
-        "message": "Open in ONLYOFFICE ZH"
+    "onlyofficeButton": {
+        "message": "ONLYOFFICE"
+    },
+    "openButton": {
+        "message": "打开"
     },
     "createDocument": {
         "message": "Create a document ZH"
