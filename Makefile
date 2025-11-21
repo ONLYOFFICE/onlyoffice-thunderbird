@@ -115,6 +115,7 @@ endif
 	@echo "Minifying CSS files..."
 	@find $(BUILD_DIR) -name "*.css" -type f -exec $(CSS_MINIFIER) -o {} {} \;
 	
-	@echo "Creating distribution archive..."
+	@echo "Creating distribution archives..."
 	@mkdir -p $(DIST_DIR)
-	@tar -czf $(DIST_DIR)/onlyoffice-thunderbird.tar.gz -C $(BUILD_DIR) .
+	@tar -czf $(DIST_DIR)/thunderbird.tar.gz -C $(BUILD_DIR) .
+	@cd $(BUILD_DIR) && zip -r ../$(DIST_DIR)/thunderbird.zip .
