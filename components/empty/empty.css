@@ -30,7 +30,6 @@
     margin: 0;
 
     background: var(--bg-primary);
-    animation: fadeIn var(--empty-state__animation-duration) ease-in-out;
     z-index: 999;
     transition: background 0.3s ease;
 }
@@ -58,7 +57,7 @@
 
     margin-bottom: 32px;
 
-    animation: slideUp var(--empty-state__animation-duration) ease-out var(--empty-state__animation-delay);
+    animation: slideUp 0.4s ease-out;
     animation-fill-mode: forwards;
 }
 
@@ -91,7 +90,7 @@
 
     opacity: 0;
     color: var(--empty-state__text-primary);
-    animation: slideUp calc(var(--empty-state__animation-duration) * 0.8) ease-out calc(var(--empty-state__animation-delay) * 2);
+    animation: slideUp 0.4s ease-out 0.1s;
     animation-fill-mode: forwards;
 }
 
@@ -111,7 +110,7 @@
 
     opacity: 0;
     color: var(--empty-state__text-secondary);
-    animation: slideUp calc(var(--empty-state__animation-duration) * 0.8) ease-out calc(var(--empty-state__animation-delay) * 3);
+    animation: slideUp 0.4s ease-out 0.2s;
     animation-fill-mode: forwards;
 }
 
