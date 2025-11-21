@@ -11,6 +11,9 @@
     "openButton": {
         "message": "Open JA"
     },
+    "openOnlyoffice": {
+        "message": "Open in ONLYOFFICE JA"
+    },
     "createDocument": {
         "message": "Create a document JA"
     },

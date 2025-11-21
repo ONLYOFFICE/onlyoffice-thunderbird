@@ -141,14 +141,14 @@ export const WindowManager = {
     async setupMenus() {
         browser.menus.create({
             id: 'openEditor',
-            title: messenger.i18n.getMessage('openButton'),
+            title: messenger.i18n.getMessage('openOnlyoffice'),
             contexts: ['message_list'],
             onclick: (info, tab) => this.openMessageViewer(tab)
         });
 
         browser.menus.create({
             id: 'openAttachment',
-            title: messenger.i18n.getMessage('openButton'),
+            title: messenger.i18n.getMessage('openOnlyoffice'),
             contexts: ['message_attachments', 'all_message_attachments', 'compose_attachments'],
             onclick: (info, tab) => this.openAttachmentViewer(info, tab)
         });

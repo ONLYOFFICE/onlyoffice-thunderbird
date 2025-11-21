@@ -11,6 +11,9 @@
     "openButton": {
         "message": "Open RU"
     },
+    "openOnlyoffice": {
+        "message": "Open in ONLYOFFICE RU"
+    },
     "createDocument": {
         "message": "Create a document RU"
     },

@@ -11,6 +11,9 @@
     "openButton": {
         "message": "Open ZH"
     },
+    "openOnlyoffice": {
+        "message": "Open in ONLYOFFICE ZH"
+    },
     "createDocument": {
         "message": "Create a document ZH"
     },

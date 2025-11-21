@@ -11,6 +11,9 @@
     "openButton": {
         "message": "Open PT-BR"
     },
+    "openOnlyoffice": {
+        "message": "Open in ONLYOFFICE PT-BR"
+    },
     "createDocument": {
         "message": "Create a document PT-BR"
     },

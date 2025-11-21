@@ -11,6 +11,9 @@
     "openButton": {
         "message": "Open DE"
     },
+    "openOnlyoffice": {
+        "message": "Open in ONLYOFFICE DE"
+    },
     "createDocument": {
         "message": "Create a document DE"
     },
