@@ -12,7 +12,9 @@
     "author": "ONLYOFFICE",
     "default_locale": "en-US",
     "icons": {
-      "32": "images/icon.png"
+      "64": "images/icon_big.png",
+      "32": "images/icon_mid.png",
+      "16": "images/icon_small.png"
     },
     "content_security_policy": "script-src 'self' 'unsafe-eval' $SERVER_URL$ http://localhost:* https://localhost:*; object-src 'self'",
     "permissions": [
@@ -41,13 +43,13 @@
     "message_display_action": {
       "default_title": "__MSG_onlyofficeButton__",
       "default_icon": {
-        "32": "images/icon.png"
+        "32": "images/icon_mid.png"
       }
     },
     "compose_action": {
       "default_title": "__MSG_onlyofficeButton__",
       "default_icon": {
-        "32": "images/icon.png"
+        "32": "images/icon_mid.png"
       },
       "type": "menu"
     }
