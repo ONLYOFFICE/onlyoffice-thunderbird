@@ -1,0 +1,58 @@
+name: Build ONLYOFFICE Thunderbird
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      server_url:
+        description: 'Server URL (optional, defaults to http://127.0.0.1)'
+        required: false
+        type: string
+      server_secret:
+        description: 'Server Secret (optional)'
+        required: false
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install build tools
+        run: |
+          npm install -g terser
+          npm install -g html-minifier-terser
+          npm install -g clean-css-cli
+          npm install -g eslint
+
+      - name: Check configuration
+        run: |
+          if [ -z "${{ inputs.server_url || secrets.SERVER_URL || '' }}" ]; then
+            echo "WARNING: SERVER_URL is not set. Using default: http://127.0.0.1"
+            echo "For production builds, please set SERVER_URL secret in repository settings."
+          else
+            echo "Using SERVER_URL: ${{ inputs.server_url || secrets.SERVER_URL }}"
+          fi
+
+      - name: Build plugin
+        env:
+          SERVER_URL: ${{ inputs.server_url || secrets.SERVER_URL || '' }}
+          SERVER_SECRET: ${{ inputs.server_secret || secrets.SERVER_SECRET || '' }}
+        run: make build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: onlyoffice-thunderbird-plugin
+          path: build/
+          retention-days: 30
