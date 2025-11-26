@@ -156,6 +156,25 @@ export const WindowManager = {
       contexts: ['message_attachments', 'all_message_attachments', 'compose_attachments'],
       onclick: (info, tab) => this.openAttachmentViewer(info, tab),
     });
+
+    browser.menus.onShown.addListener(async (info) => {
+      if (info.contexts.includes('message_attachments')
+          || info.contexts.includes('all_message_attachments')
+          || info.contexts.includes('compose_attachments')) {
+        const attachments = info.attachments || [];
+        let visible = false;
+
+        if (attachments.length === 1) {
+          const attachment = attachments[0];
+          visible = ApplicationConfig.isSupportedFile(attachment.name);
+        }
+
+        await browser.menus.update('openAttachment', {
+          visible,
+        });
+        await browser.menus.refresh();
+      }
+    });
   },
 
   async setupActions() {
