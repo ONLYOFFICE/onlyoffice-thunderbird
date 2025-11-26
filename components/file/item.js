@@ -5,210 +5,207 @@ import { EVENTS, FORMAT_ACTIONS } from '../../common/constants.js';
 import { FileOperations } from '../../common/file.js';
 
 export const FileComponents = {
-    _getBrowserURL(path) {
-        return typeof browser !== 'undefined' 
-            ? browser.runtime.getURL(path)
-            : path;
-    },
+  _getBrowserURL(path) {
+    return typeof browser !== 'undefined'
+      ? browser.runtime.getURL(path)
+      : path;
+  },
 
-    _getIcon(iconPath) {
-        const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-        return isDark ? iconPath.replace('.svg', '_dark.svg') : iconPath;
-    },
+  _getIcon(iconPath) {
+    const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    return isDark ? iconPath.replace('.svg', '_dark.svg') : iconPath;
+  },
 
-    _createElement(tag, className, attributes = {}) {
-        const el = document.createElement(tag);
-        if (className) 
-            el.className = className;
-        Object.entries(attributes).forEach(([key, value]) => {
-            if (key === 'textContent') {
-                el.textContent = value;
-            } else if (key === 'html') {
-                el.innerHTML = value;
-            } else {
-                el.setAttribute(key, value);
-            }
-        });
-        return el;
-    },
+  _createElement(tag, className, attributes = {}) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    Object.entries(attributes).forEach(([key, value]) => {
+      if (key === 'textContent') {
+        el.textContent = value;
+      } else if (key === 'html') {
+        el.innerHTML = value;
+      } else {
+        el.setAttribute(key, value);
+      }
+    });
+    return el;
+  },
 
-    createFileItem(file, translations = {}) {
-        const extension = FileOperations.getFileExtension(file.name);
-        const isEditable = this._isExtensionEditable(extension);
-        
-        const li = this._createElement('li', 'file-item');
-        li.appendChild(this._createFileIcon(file, translations.fileIcon || 'File icon'));
-        li.appendChild(this._createFileInfo(file));
-        li.appendChild(this._createFileActions(file, isEditable, translations));
-        
-        return li;
-    },
+  createFileItem(file, translations = {}) {
+    const extension = FileOperations.getFileExtension(file.name);
+    const isEditable = this._isExtensionEditable(extension);
 
-    _createFileIcon(file, altText) {
-        const iconDiv = this._createElement('div', 'file-item__icon');
-        const img = this._createElement('img', '', {
-            src: this._getFileIcon(file),
-            alt: altText
-        });
-        iconDiv.appendChild(img);
-        return iconDiv;
-    },
+    const li = this._createElement('li', 'file-item');
+    li.appendChild(this._createFileIcon(file, translations.fileIcon || 'File icon'));
+    li.appendChild(this._createFileInfo(file));
+    li.appendChild(this._createFileActions(file, isEditable, translations));
 
-    _createFileInfo(file) {
-        const extension = FileOperations.getFileExtension(file.name);
-        const baseName = file.name.substring(0, file.name.length - extension.length - 1);
-        
-        const infoDiv = this._createElement('div', 'file-item__info');
-        infoDiv.appendChild(this._createFileName(baseName, extension));
-        infoDiv.appendChild(this._createFileMeta(file.size));
-        
-        return infoDiv;
-    },
+    return li;
+  },
 
-    _createFileName(baseName, extension) {
-        const nameDiv = this._createElement('div', 'file-item__name');
-        nameDiv.appendChild(document.createTextNode(baseName));
-        
-        if (extension) {
-            nameDiv.appendChild(document.createTextNode('.'));
-            const extSpan = this._createElement('span', 'file-item__extension', {
-                textContent: extension
-            });
-            nameDiv.appendChild(extSpan);
-        }
-        
-        return nameDiv;
-    },
+  _createFileIcon(file, altText) {
+    const iconDiv = this._createElement('div', 'file-item__icon');
+    const img = this._createElement('img', '', {
+      src: this._getFileIcon(file),
+      alt: altText,
+    });
+    iconDiv.appendChild(img);
+    return iconDiv;
+  },
 
-    _createFileMeta(fileSize) {
-        return this._createElement('div', 'file-item__meta', {
-            textContent: FileOperations.formatSize(fileSize)
-        });
-    },
+  _createFileInfo(file) {
+    const extension = FileOperations.getFileExtension(file.name);
+    const baseName = file.name.substring(0, file.name.length - extension.length - 1);
 
-    _createFileActions(file, isEditable, translations) {
-        const actionsDiv = this._createElement('div', 'file-item__actions');
-        const openLabel = isEditable 
-            ? (translations.editOnlyoffice || 'Edit in ONLYOFFICE')
-            : (translations.viewOnlyoffice || 'View in ONLYOFFICE');
-        
-        const openIcon = isEditable ? 'images/pencil.svg' : 'images/eye.svg';
-        actionsDiv.appendChild(this._createActionButton(
-            this._getIcon(openIcon),
-            openLabel,
-            (e) => this._handleOpenClick(e, file, actionsDiv)
-        ));
+    const infoDiv = this._createElement('div', 'file-item__info');
+    infoDiv.appendChild(this._createFileName(baseName, extension));
+    infoDiv.appendChild(this._createFileMeta(file.size));
 
-        actionsDiv.appendChild(this._createActionButton(
-            this._getIcon('images/download.svg'),
-            translations.download || 'Download',
-            (e) => this._handleDownloadClick(e, file, actionsDiv)
-        ));
+    return infoDiv;
+  },
 
-        return actionsDiv;
-    },
+  _createFileName(baseName, extension) {
+    const nameDiv = this._createElement('div', 'file-item__name');
+    nameDiv.appendChild(document.createTextNode(baseName));
 
-    _createActionButton(iconPath, label, onClickHandler) {
-        const btn = this._createElement('button', 'file-item__action-button', {
-            title: label,
-            'aria-label': label
-        });
-        const img = this._createElement('img', '', {
-            src: this._getBrowserURL(iconPath),
-            alt: ''
-        });
-        btn.appendChild(img);
-        btn.addEventListener('click', onClickHandler);
-        return btn;
-    },
+    if (extension) {
+      nameDiv.appendChild(document.createTextNode('.'));
+      const extSpan = this._createElement('span', 'file-item__extension', {
+        textContent: extension,
+      });
+      nameDiv.appendChild(extSpan);
+    }
 
-    async _handleOpenClick(e, file, actionsDiv) {
-        e.preventDefault();
-        this._disableButtons(actionsDiv);
-        try {
-            window.dispatchEvent(new CustomEvent(EVENTS.FILE_OPEN, {
-                detail: { file }
-            }));
-        } catch (error) {
-            logger.error('Error opening file:', error);
-            this._enableButtons(actionsDiv);
-        }
-    },
+    return nameDiv;
+  },
 
-    async _handleDownloadClick(e, file, actionsDiv) {
-        e.preventDefault();
-        this._disableButtons(actionsDiv);
-        try {
-            window.dispatchEvent(new CustomEvent(EVENTS.FILE_DOWNLOAD, {
-                detail: { file }
-            }));
-            setTimeout(() => this._enableButtons(actionsDiv), 500);
-        } catch (error) {
-            logger.error('Error downloading file:', error);
-            this._enableButtons(actionsDiv);
-        }
-    },
+  _createFileMeta(fileSize) {
+    return this._createElement('div', 'file-item__meta', {
+      textContent: FileOperations.formatSize(fileSize),
+    });
+  },
 
-    displayFileList(files, containerId = 'file-list', translations = {}) {
-        const fileList = document.getElementById(containerId);
-        if (!fileList) return;
+  _createFileActions(file, isEditable, translations) {
+    const actionsDiv = this._createElement('div', 'file-item__actions');
+    const openLabel = isEditable
+      ? (translations.editOnlyoffice || 'Edit in ONLYOFFICE')
+      : (translations.viewOnlyoffice || 'View in ONLYOFFICE');
 
-        fileList.innerHTML = '';
+    const openIcon = isEditable ? 'images/pencil.svg' : 'images/eye.svg';
+    actionsDiv.appendChild(this._createActionButton(
+      this._getIcon(openIcon),
+      openLabel,
+      (e) => this._handleOpenClick(e, file, actionsDiv),
+    ));
 
-        if (!files || files.length === 0) {
-            const noFilesMsg = document.getElementById('no-files');
-            if (noFilesMsg)
-                noFilesMsg.classList.add('files-container__empty-message--visible');
-            return;
-        }
+    actionsDiv.appendChild(this._createActionButton(
+      this._getIcon('images/download.svg'),
+      translations.download || 'Download',
+      (e) => this._handleDownloadClick(e, file, actionsDiv),
+    ));
 
-        const noFilesMsg = document.getElementById('no-files');
-        if (noFilesMsg)
-            noFilesMsg.classList.remove('files-container__empty-message--visible');
+    return actionsDiv;
+  },
 
-        files.forEach(file => {
-            fileList.appendChild(this.createFileItem(file, translations));
-        });
-    },
+  _createActionButton(iconPath, label, onClickHandler) {
+    const btn = this._createElement('button', 'file-item__action-button', {
+      title: label,
+      'aria-label': label,
+    });
+    const img = this._createElement('img', '', {
+      src: this._getBrowserURL(iconPath),
+      alt: '',
+    });
+    btn.appendChild(img);
+    btn.addEventListener('click', onClickHandler);
+    return btn;
+  },
 
-    _getFileIcon(file) {
-        const ext = FileOperations.getFileExtension(file.name).toLowerCase();
-        
-        const typeIconMap = {
-            'word': 'images/word.svg',
-            'cell': 'images/cell.svg',
-            'slide': 'images/slide.svg',
-            'pdf': 'images/pdf.svg',
-            'diagram': 'images/diagram.svg'
-        };
-        
-        if (ApplicationConfig.formatsData && Array.isArray(ApplicationConfig.formatsData)) {
-            const format = ApplicationConfig.formatsData.find(f => f.name === ext);
-            if (format && format.type) {
-                const icon = typeIconMap[format.type] || 'images/unknown.svg';
-                return this._getBrowserURL(icon);
-            }
-        }
-        
-        return this._getBrowserURL('images/unknown.svg');
-    },
+  async _handleOpenClick(e, file, actionsDiv) {
+    e.preventDefault();
+    this._disableButtons(actionsDiv);
+    try {
+      window.dispatchEvent(new CustomEvent(EVENTS.FILE_OPEN, {
+        detail: { file },
+      }));
+    } catch (error) {
+      logger.error('Error opening file:', error);
+      this._enableButtons(actionsDiv);
+    }
+  },
 
-    _isExtensionEditable(extension) {
-        if (!ApplicationConfig.formatsData || !Array.isArray(ApplicationConfig.formatsData)) return false;
-        const format = ApplicationConfig.formatsData.find(f => f.name === extension);
-        if (!format || !Array.isArray(format.actions)) return false;
-        return format.actions.includes(FORMAT_ACTIONS.EDIT);
-    },
+  async _handleDownloadClick(e, file, actionsDiv) {
+    e.preventDefault();
+    this._disableButtons(actionsDiv);
+    try {
+      window.dispatchEvent(new CustomEvent(EVENTS.FILE_DOWNLOAD, {
+        detail: { file },
+      }));
+      setTimeout(() => this._enableButtons(actionsDiv), 500);
+    } catch (error) {
+      logger.error('Error downloading file:', error);
+      this._enableButtons(actionsDiv);
+    }
+  },
 
-    _disableButtons(actionsDiv) {
-        actionsDiv.querySelectorAll('button').forEach(btn => {
-            btn.disabled = true;
-        });
-    },
+  displayFileList(files, containerId = 'file-list', translations = {}) {
+    const fileList = document.getElementById(containerId);
+    if (!fileList) return;
 
-    _enableButtons(actionsDiv) {
-        actionsDiv.querySelectorAll('button').forEach(btn => {
-            btn.disabled = false;
-        });
-    },
+    fileList.innerHTML = '';
+
+    if (!files || files.length === 0) {
+      const noFilesMsg = document.getElementById('no-files');
+      if (noFilesMsg) noFilesMsg.classList.add('files-container__empty-message--visible');
+      return;
+    }
+
+    const noFilesMsg = document.getElementById('no-files');
+    if (noFilesMsg) noFilesMsg.classList.remove('files-container__empty-message--visible');
+
+    files.forEach((file) => {
+      fileList.appendChild(this.createFileItem(file, translations));
+    });
+  },
+
+  _getFileIcon(file) {
+    const ext = FileOperations.getFileExtension(file.name).toLowerCase();
+
+    const typeIconMap = {
+      word: 'images/word.svg',
+      cell: 'images/cell.svg',
+      slide: 'images/slide.svg',
+      pdf: 'images/pdf.svg',
+      diagram: 'images/diagram.svg',
+    };
+
+    if (ApplicationConfig.formatsData && Array.isArray(ApplicationConfig.formatsData)) {
+      const format = ApplicationConfig.formatsData.find((f) => f.name === ext);
+      if (format && format.type) {
+        const icon = typeIconMap[format.type] || 'images/unknown.svg';
+        return this._getBrowserURL(icon);
+      }
+    }
+
+    return this._getBrowserURL('images/unknown.svg');
+  },
+
+  _isExtensionEditable(extension) {
+    if (!ApplicationConfig.formatsData || !Array.isArray(ApplicationConfig.formatsData)) return false;
+    const format = ApplicationConfig.formatsData.find((f) => f.name === extension);
+    if (!format || !Array.isArray(format.actions)) return false;
+    return format.actions.includes(FORMAT_ACTIONS.EDIT);
+  },
+
+  _disableButtons(actionsDiv) {
+    actionsDiv.querySelectorAll('button').forEach((btn) => {
+      btn.disabled = true;
+    });
+  },
+
+  _enableButtons(actionsDiv) {
+    actionsDiv.querySelectorAll('button').forEach((btn) => {
+      btn.disabled = false;
+    });
+  },
 };
