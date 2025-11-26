@@ -13,12 +13,12 @@ CONFIG_DIR = $(SRC_DIR)/config
 TERSER = terser
 HTML_MINIFIER = html-minifier-terser
 CSS_MINIFIER = cleancss
-ESLINT = eslint
+ESLINT = npx eslint
 
 TERSER_AVAILABLE := $(shell command -v $(TERSER) 2> /dev/null)
 HTML_MINIFIER_AVAILABLE := $(shell command -v $(HTML_MINIFIER) 2> /dev/null)
 CSS_MINIFIER_AVAILABLE := $(shell command -v $(CSS_MINIFIER) 2> /dev/null)
-ESLINT_AVAILABLE := $(shell command -v $(ESLINT) 2> /dev/null)
+ESLINT_AVAILABLE := $(shell test -f node_modules/.bin/eslint && echo "node_modules/.bin/eslint" || command -v eslint 2> /dev/null)
 
 JS_ROOT = $(wildcard $(SRC_DIR)/*.js)
 JS_COMMON = $(wildcard $(COMMON_DIR)/*.js)
@@ -37,7 +37,7 @@ install-tools:
 	@npm install -g terser
 	@npm install -g html-minifier-terser
 	@npm install -g clean-css-cli
-	@npm install -g eslint
+	@npm install
 	@echo "Installation complete!"
 
 clean:
@@ -66,7 +66,7 @@ else
 	@echo "Clean-css found at $(CSS_MINIFIER_AVAILABLE)"
 endif
 ifndef ESLINT_AVAILABLE
-	@echo "ESLint not found. Install with: npm install -g eslint"
+	@echo "ESLint not found. Run: npm install"
 	@exit 1
 else
 	@echo "ESLint found at $(ESLINT_AVAILABLE)"
@@ -83,9 +83,6 @@ lint-fix:
 
 build: clean check-tools
 	@echo "Building the ONLYOFFICE Thunderbird plugin..."
-	
-	@echo "Running ESLint..."
-	@$(ESLINT) $(SRC_DIR)
 	
 	@mkdir -p $(BUILD_DIR)
 	@echo "Copying source files..."
