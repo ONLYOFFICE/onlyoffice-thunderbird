@@ -113,7 +113,7 @@ export const MessageHandlers = {
 
     createNewDocument: withErrorHandling(async (request, sendResponse) => {
         const tabId = parseInt(request.composeTabId);
-        const title = request.title || 'New document';
+        const title = request.title || 'New file';
         const type = request.type || 'document';
 
         const extensions = { document: '.docx', spreadsheet: '.xlsx', presentation: '.pptx' };

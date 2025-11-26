@@ -23,8 +23,8 @@
     "title": {
         "message": "Title PT-BR"
     },
-    "newDocument": {
-        "message": "New document PT-BR"
+    "newFile": {
+        "message": "New file PT-BR"
     },
     "documentType": {
         "message": "Document PT-BR"

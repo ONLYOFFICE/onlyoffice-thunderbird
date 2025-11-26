@@ -292,7 +292,7 @@ export class CreatePage extends PageComponent {
 
     async createDocument() {
         const titleInput = this.querySelector('#documentTitle');
-        const title = titleInput?.value.trim() || messenger.i18n.getMessage('newDocument') || 'New document';
+        const title = titleInput?.value.trim() || messenger.i18n.getMessage('newFile') || 'New file';
 
         try {
             const response = await browser.runtime.sendMessage({

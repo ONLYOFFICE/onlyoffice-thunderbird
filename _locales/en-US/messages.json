@@ -23,8 +23,8 @@
     "title": {
         "message": "Title"
     },
-    "newDocument": {
-        "message": "New document"
+    "newFile": {
+        "message": "New file"
     },
     "documentType": {
         "message": "Document"
