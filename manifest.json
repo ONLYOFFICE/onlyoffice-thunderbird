@@ -16,22 +16,21 @@
       "32": "images/icon_mid.png",
       "16": "images/icon_small.png"
     },
-    "content_security_policy": "script-src 'self' 'unsafe-eval' $SERVER_URL$ http://localhost:* https://localhost:*; object-src 'self'",
+    "content_security_policy": "script-src 'self' 'unsafe-eval' $SERVER_URL$ http://localhost https://localhost; object-src 'self'",
     "permissions": [
       "messagesRead",
       "messagesModify",
       "accountsRead",
       "menus",
       "tabs",
-      "mailTabs",
       "compose",
       "downloads",
       "messagesMove",
       "notifications",
       "activeTab",
       "$SERVER_URL$/*",
-      "http://localhost:*/*",
-      "https://localhost:*/*"
+      "http://localhost/*",
+      "https://localhost/*"
     ],
     "background": {
       "scripts": [
