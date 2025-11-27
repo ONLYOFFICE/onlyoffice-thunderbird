@@ -53,7 +53,7 @@ export const WindowManager = {
       await this.open(
         `${WINDOW_KEYS.COMPOSE}${tab.id}_create`,
         `pages/create.html?composeTabId=${tab.id}`,
-        { width: 450, height: 280 },
+        { width: 480, height: 280 },
       );
     } catch (error) {
       logger.error('Error opening create viewer:', error);

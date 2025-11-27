@@ -82,6 +82,7 @@ body {
 
 .file-creator__input {
     width: 100%;
+    min-width: 367px;
     height: 36px;
 
     padding: 0 12px;
