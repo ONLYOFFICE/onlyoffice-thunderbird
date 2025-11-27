@@ -10,6 +10,7 @@ const getComposeTabId = () => new URLSearchParams(window.location.search).get('c
 export const DocumentEditor = {
   instance: null,
   config: null,
+  unsavedChanges: false,
 
   _getPermissions(extension) {
     const format = ApplicationConfig.formatsData?.find((f) => f.name === extension);
@@ -104,6 +105,8 @@ export const DocumentEditor = {
       getComposeTabId()
         ? await this.saveFile(blob, name)
         : this.downloadFile(blob, name);
+
+      this.unsavedChanges = false;
     } catch (error) {
       console.error('Error saving document:', error);
     }
@@ -145,6 +148,7 @@ export const DocumentEditor = {
           if (onReady) onReady();
         },
         onSaveDocument: (event) => this.onSaveDocument(event, name),
+        onDocumentStateChange: () => { this.unsavedChanges = true; },
         onDownloadAs: (event) => this.onSaveDocument(event, name),
       },
     };
@@ -175,11 +179,20 @@ export const DocumentEditor = {
     return config;
   },
 
+  setupUnsavedChangesWarning() {
+    window.addEventListener('beforeunload', (event) => {
+      if (this.unsavedChanges) {
+        event.preventDefault();
+      }
+    });
+  },
+
   async init(data, name, extension, type, onReady) {
     await this.loadApiJs();
     if (typeof DocsAPI === 'undefined') throw new Error(messenger.i18n.getMessage('errorDocApiNotLoaded'));
 
     this.config = await this.buildConfig(data, name, extension, type, onReady);
     this.instance = new DocsAPI.DocEditor('placeholder', this.config);
+    this.setupUnsavedChangesWarning();
   },
 };
