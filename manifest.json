@@ -19,15 +19,10 @@
     "content_security_policy": "script-src 'self' 'unsafe-eval' $SERVER_URL$; object-src 'self'",
     "permissions": [
       "messagesRead",
-      "messagesModify",
       "accountsRead",
       "menus",
       "tabs",
       "compose",
-      "downloads",
-      "messagesMove",
-      "notifications",
-      "activeTab",
       "$SERVER_URL$/*"
     ],
     "background": {
