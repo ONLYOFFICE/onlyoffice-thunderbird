@@ -104,7 +104,10 @@ export const ApplicationConfig = {
   },
 
   getSupportedExtensions() {
-    return Object.values(this.documents).flatMap((doc) => doc.extensions);
+    if (!Array.isArray(this.formatsData)) return [];
+    return this.formatsData
+      .filter((format) => Array.isArray(format.actions) && format.actions.includes('view'))
+      .map((format) => format.name);
   },
 
   isSupportedFile(filename) {
