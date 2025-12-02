@@ -42,10 +42,16 @@
         "message": "Create RU"
     },
     "emptyStateTitle": {
-        "message": "No docs here yet RU"
+        "message": "No files found RU"
     },
     "emptyStateSubtitle": {
-        "message": "Any files you upload will show up here. RU"
+        "message": "This email has no attachments RU"
+    },
+    "emptyStateComposeTitle": {
+        "message": "No files here yet RU"
+    },
+    "emptyStateComposeSubtitle": {
+        "message": "Attach a file or create one with ONLYOFFICE, and it will appear here ready for editing. RU"
     },
     "emptyStateIllustration": {
         "message": "Empty state illustration RU"

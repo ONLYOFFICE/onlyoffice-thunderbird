@@ -42,10 +42,16 @@
         "message": "Create ZH"
     },
     "emptyStateTitle": {
-        "message": "No docs here yet ZH"
+        "message": "No files found ZH"
     },
     "emptyStateSubtitle": {
-        "message": "Any files you upload will show up here. ZH"
+        "message": "This email has no attachments ZH"
+    },
+    "emptyStateComposeTitle": {
+        "message": "No files here yet ZH"
+    },
+    "emptyStateComposeSubtitle": {
+        "message": "Attach a file or create one with ONLYOFFICE, and it will appear here ready for editing. ZH"
     },
     "emptyStateIllustration": {
         "message": "Empty state illustration ZH"

@@ -56,23 +56,27 @@ export class LoadingPage extends PageComponent {
 
 export class EmptyPage extends PageComponent {
   constructor() {
-    super('template-empty-state');
-  }
-
-  async init() {
-    const { localizeDocument } = await import('../common/i18n.js');
-    localizeDocument();
+    super(null);
   }
 
   async render(data) {
-    await super.render(data);
-    const iconImg = this.querySelector('.empty-state__icon-img');
+    const { EmptyStateComponent } = await import('../components/empty/empty.js');
+    EmptyStateComponent.init();
 
-    if (iconImg) {
-      iconImg.src = typeof browser !== 'undefined'
-        ? browser.runtime.getURL('images/nofiles.svg')
-        : 'images/nofiles.svg';
-    }
+    const isCompose = data?.isCompose;
+    const title = isCompose
+      ? messenger.i18n.getMessage('emptyStateComposeTitle')
+      : messenger.i18n.getMessage('emptyStateTitle');
+    const subtitle = isCompose
+      ? messenger.i18n.getMessage('emptyStateComposeSubtitle')
+      : messenger.i18n.getMessage('emptyStateSubtitle');
+
+    this.element = EmptyStateComponent.createTemplate(
+      messenger.i18n.getMessage('fileListTitle'),
+      title,
+      subtitle,
+      messenger.i18n.getMessage('emptyStateIllustration'),
+    );
 
     return this.element;
   }

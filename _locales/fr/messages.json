@@ -42,10 +42,16 @@
         "message": "Create FR"
     },
     "emptyStateTitle": {
-        "message": "No docs here yet FR"
+        "message": "No files found FR"
     },
     "emptyStateSubtitle": {
-        "message": "Any files you upload will show up here. FR"
+        "message": "This email has no attachments FR"
+    },
+    "emptyStateComposeTitle": {
+        "message": "No files here yet FR"
+    },
+    "emptyStateComposeSubtitle": {
+        "message": "Attach a file or create one with ONLYOFFICE, and it will appear here ready for editing. FR"
     },
     "emptyStateIllustration": {
         "message": "Empty state illustration FR"

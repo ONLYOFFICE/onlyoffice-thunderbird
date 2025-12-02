@@ -42,10 +42,16 @@
         "message": "Create DE"
     },
     "emptyStateTitle": {
-        "message": "No docs here yet DE"
+        "message": "No files found DE"
     },
     "emptyStateSubtitle": {
-        "message": "Any files you upload will show up here. DE"
+        "message": "This email has no attachments DE"
+    },
+    "emptyStateComposeTitle": {
+        "message": "No files here yet DE"
+    },
+    "emptyStateComposeSubtitle": {
+        "message": "Attach a file or create one with ONLYOFFICE, and it will appear here ready for editing. DE"
     },
     "emptyStateIllustration": {
         "message": "Empty state illustration DE"

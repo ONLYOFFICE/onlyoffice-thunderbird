@@ -17,12 +17,15 @@
 -->
 <template id="template-empty-state">
     <div id="empty-state" class="empty-state" role="status" aria-label="Empty state">
-        <div class="empty-state__box">
-            <div class="empty-state__icon" aria-hidden="true">
-                <img class="empty-state__icon-img" data-i18n-alt="emptyStateIllustration" loading="lazy" />
+        <div class="empty-state__container">
+            <h1 class="empty-state__container-title" data-i18n-content="fileListTitle"></h1>
+            <div class="empty-state__box">
+                <div class="empty-state__icon" aria-hidden="true">
+                    <img class="empty-state__icon-img" data-i18n-alt="emptyStateIllustration" loading="lazy" />
+                </div>
+                <div class="empty-state__title" role="heading" aria-level="2" data-i18n-content="emptyStateTitle"></div>
+                <div class="empty-state__subtitle" data-i18n-content="emptyStateSubtitle"></div>
             </div>
-            <div class="empty-state__title" role="heading" aria-level="1" data-i18n-content="emptyStateTitle"></div>
-            <div class="empty-state__subtitle" data-i18n-content="emptyStateSubtitle"></div>
         </div>
     </div>
 </template>

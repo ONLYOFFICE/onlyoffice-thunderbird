@@ -28,7 +28,7 @@ export const EmptyStateComponent = {
     this.injectStyles();
   },
 
-  createTemplate(title, subtitle, altText) {
+  createTemplate(containerTitle, title, subtitle, altText) {
     const container = document.createElement('div');
     container.id = 'empty-state';
     container.className = 'empty-state';
@@ -38,12 +38,15 @@ export const EmptyStateComponent = {
     const icon = this._getBrowserURL('images/nofiles.svg');
 
     container.innerHTML = `
-            <div class="empty-state__box">
-                <div class="empty-state__icon" aria-hidden="true">
-                    <img class="empty-state__icon-img" src="${icon}" alt="${altText}" loading="lazy">
+            <div class="empty-state__container">
+                <h1 class="empty-state__container-title">${containerTitle}</h1>
+                <div class="empty-state__box">
+                    <div class="empty-state__icon" aria-hidden="true">
+                        <img class="empty-state__icon-img" src="${icon}" alt="${altText}" loading="lazy">
+                    </div>
+                    <div class="empty-state__title" role="heading" aria-level="2">${title}</div>
+                    <div class="empty-state__subtitle">${subtitle}</div>
                 </div>
-                <div class="empty-state__title" role="heading" aria-level="1">${title}</div>
-                <div class="empty-state__subtitle">${subtitle}</div>
             </div>
         `;
 
@@ -65,10 +68,10 @@ export const EmptyStateComponent = {
     document.head.appendChild(link);
   },
 
-  show(title, subtitle, altText) {
+  show(containerTitle, title, subtitle, altText) {
     this.injectStyles();
 
-    const emptyState = this.createTemplate(title, subtitle, altText);
+    const emptyState = this.createTemplate(containerTitle, title, subtitle, altText);
     const container = document.querySelector('.container');
 
     if (container) {

@@ -57,6 +57,8 @@ const App = {
       const attachmentId = params.get('attachmentId');
       const attachmentName = params.get('attachmentName');
       const attachmentPartName = params.get('attachmentPartName');
+      const composeTabId = params.get('composeTabId');
+      const isCompose = !!composeTabId;
 
       if (attachmentName && attachments.length) {
         let attachment = null;
@@ -72,13 +74,13 @@ const App = {
         else {
           await router.navigate(
             attachments.length ? 'files' : 'empty',
-            attachments.length ? { files: attachments } : {},
+            attachments.length ? { files: attachments } : { isCompose },
           );
         }
       } else {
         await router.navigate(
           attachments.length ? 'files' : 'empty',
-          attachments.length ? { files: attachments } : {},
+          attachments.length ? { files: attachments } : { isCompose },
         );
       }
 

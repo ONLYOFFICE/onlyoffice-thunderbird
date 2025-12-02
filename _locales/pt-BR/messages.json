@@ -42,10 +42,16 @@
         "message": "Create PT-BR"
     },
     "emptyStateTitle": {
-        "message": "No docs here yet PT-BR"
+        "message": "No files found PT-BR"
     },
     "emptyStateSubtitle": {
-        "message": "Any files you upload will show up here. PT-BR"
+        "message": "This email has no attachments PT-BR"
+    },
+    "emptyStateComposeTitle": {
+        "message": "No files here yet PT-BR"
+    },
+    "emptyStateComposeSubtitle": {
+        "message": "Attach a file or create one with ONLYOFFICE, and it will appear here ready for editing. PT-BR"
     },
     "emptyStateIllustration": {
         "message": "Empty state illustration PT-BR"
