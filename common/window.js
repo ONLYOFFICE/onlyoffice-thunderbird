@@ -202,10 +202,14 @@ export const WindowManager = {
     }
 
     if (browser.composeAction) {
+      const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
       browser.menus.create({
         id: 'compose_open_editor',
         title: messenger.i18n.getMessage('openButton'),
         contexts: ['compose_action_menu'],
+        icons: {
+          16: isDark ? 'images/open_dark.svg' : 'images/open.svg',
+        },
         onclick: (info, tab) => this.openComposeViewer(tab),
       });
 
@@ -213,6 +217,9 @@ export const WindowManager = {
         id: 'compose_create_document',
         title: messenger.i18n.getMessage('createDocument'),
         contexts: ['compose_action_menu'],
+        icons: {
+          16: isDark ? 'images/create_dark.svg' : 'images/create.svg',
+        },
         onclick: (info, tab) => this.openCreateViewer(tab),
       });
     } else {
