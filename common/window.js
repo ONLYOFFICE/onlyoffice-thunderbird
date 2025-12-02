@@ -194,6 +194,15 @@ export const WindowManager = {
     });
   },
 
+  _updateMenuIcons(isDark) {
+    browser.menus.update('compose_open_editor', {
+      icons: { 16: isDark ? 'images/open_dark.svg' : 'images/open.svg' },
+    });
+    browser.menus.update('compose_create_document', {
+      icons: { 16: isDark ? 'images/create_dark.svg' : 'images/create.svg' },
+    });
+  },
+
   async setupActions() {
     if (browser.messageDisplayAction) {
       browser.messageDisplayAction.onClicked.addListener((tab) => this.openMessageViewer(tab));
@@ -202,7 +211,9 @@ export const WindowManager = {
     }
 
     if (browser.composeAction) {
-      const isDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+      const isDark = mediaQuery?.matches;
+
       browser.menus.create({
         id: 'compose_open_editor',
         title: messenger.i18n.getMessage('openButton'),
@@ -221,6 +232,10 @@ export const WindowManager = {
           16: isDark ? 'images/create_dark.svg' : 'images/create.svg',
         },
         onclick: (info, tab) => this.openCreateViewer(tab),
+      });
+
+      mediaQuery?.addEventListener('change', (e) => {
+        this._updateMenuIcons(e.matches);
       });
     } else {
       logger.warn('composeAction not available');
