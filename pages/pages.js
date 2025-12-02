@@ -122,6 +122,7 @@ export class FileListPage extends PageComponent {
     this.files = data?.files || [];
     this.translations = {
       fileListTitle: messenger.i18n.getMessage('fileListTitle'),
+      fileListNotice: messenger.i18n.getMessage('fileListNotice'),
       noDocumentsFound: messenger.i18n.getMessage('noDocumentsFound'),
       fileIcon: messenger.i18n.getMessage('fileIcon'),
       editOnlyoffice: messenger.i18n.getMessage('editOnlyoffice'),
@@ -130,6 +131,7 @@ export class FileListPage extends PageComponent {
     };
     this.element = FileListComponent.createTemplate(
       this.translations.fileListTitle,
+      this.translations.fileListNotice,
       this.translations.noDocumentsFound,
     );
     this.renderFileItems();

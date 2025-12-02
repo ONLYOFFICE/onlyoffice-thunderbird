@@ -51,6 +51,12 @@ export const FileListComponent = {
     });
   },
 
+  _createNotice(notice) {
+    return this._createElement('p', 'files-container__notice', {
+      textContent: notice,
+    });
+  },
+
   _createFileList() {
     return this._createElement('ul', 'files-container__list', {
       id: 'file-list',
@@ -76,9 +82,10 @@ export const FileListComponent = {
     return true;
   },
 
-  createTemplate(title, emptyMessage) {
+  createTemplate(title, notice, emptyMessage) {
     const container = this._createContainer();
     container.appendChild(this._createTitle(title));
+    container.appendChild(this._createNotice(notice));
     container.appendChild(this._createScrollableContent(emptyMessage));
     return container;
   },
@@ -98,10 +105,10 @@ export const FileListComponent = {
     document.head.appendChild(link);
   },
 
-  show() {
+  show(title = '', notice = '', emptyMessage = '') {
     this.injectStyles();
 
-    const template = this.createTemplate();
+    const template = this.createTemplate(title, notice, emptyMessage);
     const container = document.querySelector('.container');
 
     if (container) {

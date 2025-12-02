@@ -74,6 +74,9 @@
     "fileListSubtitle": {
         "message": "Click on a file to open it in ONLYOFFICE RU"
     },
+    "fileListNotice": {
+        "message": "Important: Your changes won't be saved. To keep them, please download the modified file to your device. RU"
+    },
     "noDocumentsFound": {
         "message": "No Office documents found RU"
     },
