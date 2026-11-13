@@ -13,7 +13,13 @@ module.exports = {
     'config/',
     'vendor/',
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: ['tests/**/*.js'],
+      env: { node: true },
+      globals: { browser: 'writable', messenger: 'writable' },
+    },
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
   },
